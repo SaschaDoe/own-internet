@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUILD YOUR OWN INTERNET | The Ultimate Digital Freedom Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00ff00;
+            --bg-color: #0a0a0a;
+            --secondary-bg: #111;
+            --text-color: #00ff00;
+            --dim-color: rgba(0, 255, 0, 0.6);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.03) 3px
+                );
+        }
+
+        .ascii-header {
+            background: #000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ascii-art {
+            font-size: 0.8em;
+            line-height: 1.2;
+            color: var(--primary-color);
+            white-space: pre;
+            margin: 20px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .ascii-art {
+                font-size: 0.5em;
+            }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 20px var(--primary-color);
+            letter-spacing: 3px;
+            margin: 20px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            opacity: 0.8;
+            font-size: 1.1em;
+            color: var(--dim-color);
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--secondary-bg);
+            border-bottom: 2px solid var(--primary-color);
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--primary-color);
+            font-family: inherit;
+            font-size: 1em;
+            position: relative;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: rgba(0, 255, 0, 0.1);
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .tab.active {
+            background: rgba(0, 255, 0, 0.2);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-section {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid var(--primary-color);
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .intro-section::before {
+            content: '// INTRODUCTION';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg-color);
+            padding: 0 10px;
+            color: var(--dim-color);
+            font-size: 0.9em;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .concept-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--dim-color);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid var(--primary-color);
+            padding: 25px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: slide 3s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .service-card:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .service-icon {
+            font-size: 2em;
+            margin-right: 15px;
+            font-family: monospace;
+        }
+
+        .service-title {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .service-solution {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        .beginner-note {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px dashed var(--dim-color);
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .beginner-note::before {
+            content: '[ BEGINNER NOTE ]';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--bg-color);
+            padding: 0 5px;
+            color: var(--dim-color);
+            font-size: 0.8em;
+        }
+
+        .links {
+            margin-top: 15px;
+        }
+
+        .link {
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 5px 10px;
+            border: 1px solid var(--primary-color);
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .link:hover {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* Links inside pre/ASCII art sections */
+        pre a {
+            color: var(--primary-color) !important;
+            text-decoration: underline;
+        }
+
+        pre a:hover {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .terminal-prompt {
+            margin: 20px 0;
+            padding: 20px;
+            background: #000;
+            border: 1px solid var(--primary-color);
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .terminal-prompt::before {
+            content: '$ ';
+            color: var(--primary-color);
+        }
+
+        .command-block {
+            background: #000;
+            border: 1px solid var(--dim-color);
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 0.95em;
+        }
+
+        .command-block code {
+            color: var(--primary-color);
+            display: block;
+            margin: 5px 0;
+        }
+
+        .feature-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        .feature-list li {
+            list-style: none;
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .feature-list li::before {
+            content: '[+]';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .warning-box {
+            background: rgba(255, 100, 0, 0.1);
+            border: 2px solid #ff6400;
+            padding: 20px;
+            margin: 20px 0;
+            color: #ff6400;
+        }
+
+        .info-box {
+            background: rgba(0, 150, 255, 0.1);
+            border: 2px solid #0096ff;
+            padding: 20px;
+            margin: 20px 0;
+            color: #0096ff;
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .section-header {
+            font-size: 1.8em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--dim-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .tabs { 
+                overflow-x: auto;
+                padding: 0 10px;
+            }
+            .content { padding: 20px; }
+            .service-grid, .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ascii-header">
+        <pre class="ascii-art">
+ ██████╗ ██╗    ██╗███╗   ██╗    ██╗   ██╗ ██████╗ ██╗   ██╗██████╗     ██████╗ ██╗    ██╗███╗   ██╗
+██╔═══██╗██║    ██║████╗  ██║    ╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗   ██╔═══██╗██║    ██║████╗  ██║
+██║   ██║██║ █╗ ██║██╔██╗ ██║     ╚████╔╝ ██║   ██║██║   ██║██████╔╝   ██║   ██║██║ █╗ ██║██╔██╗ ██║
+██║   ██║██║███╗██║██║╚██╗██║      ╚██╔╝  ██║   ██║██║   ██║██╔══██╗   ██║   ██║██║███╗██║██║╚██╗██║
+╚██████╔╝╚███╔███╔╝██║ ╚████║       ██║   ╚██████╔╝╚██████╔╝██║  ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
+ ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝       ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+                                                                                                       
+██╗███╗   ██╗████████╗███████╗██████╗ ███╗   ██╗███████╗████████╗                                    
+██║████╗  ██║╚══██╔══╝██╔════╝██╔══██╗████╗  ██║██╔════╝╚══██╔══╝                                    
+██║██╔██╗ ██║   ██║   █████╗  ██████╔╝██╔██╗ ██║█████╗     ██║                                       
+██║██║╚██╗██║   ██║   ██╔══╝  ██╔══██╗██║╚██╗██║██╔══╝     ██║                                       
+██║██║ ╚████║   ██║   ███████╗██║  ██║██║ ╚████║███████╗   ██║                                       
+╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝                                       
+        </pre>
+        <h1>BUILD YOUR OWN INTERNET</h1>
+        <div class="subtitle">[ ESCAPE THE CORPORATE WEB • CREATE TRUE DIGITAL FREEDOM ]<span class="blink">_</span></div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('intro')">INTRODUCTION</button>
+        <button class="tab" onclick="showTab('services')">SERVICES</button>
+        <button class="tab" onclick="showTab('hardware')">HARDWARE</button>
+        <button class="tab" onclick="showTab('quickstart')">QUICK START</button>
+        <button class="tab" onclick="showTab('advanced')">ADVANCED</button>
+    </div>
+
+    <div class="content">
+        <!-- INTRODUCTION TAB -->
+        <div id="intro" class="tab-content active">
+            <h2 class="section-header">Welcome to Digital Independence</h2>
+            
+            <div class="intro-section">
+                <h3>What Does "Build Your Own Internet" Mean?</h3>
+                <p>Imagine if Facebook, Google, Netflix, and WhatsApp all disappeared tomorrow. What would you do? This guide teaches you how to create your own versions of these services that YOU control. No more:</p>
+                <ul class="feature-list">
+                    <li>Companies selling your data</li>
+                    <li>Services shutting down unexpectedly</li>
+                    <li>Censorship and content removal</li>
+                    <li>Monthly subscription fees</li>
+                    <li>Internet outages affecting your work</li>
+                </ul>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>📖 What is Self-Hosting?</h3>
+                    <p>Self-hosting means running software on your own computer or server instead of using someone else's. Think of it like this:</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Normal way:</strong> You upload photos to Google Photos</li>
+                        <li><strong>Self-hosted:</strong> You run your own photo app on your computer</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🖥️ What is a Server?</h3>
+                    <p>A server is just a computer that's always on and connected to the internet. It can be:</p>
+                    <ul style="margin-top: 10px;">
+                        <li>An old laptop in your closet</li>
+                        <li>A tiny Raspberry Pi ($35 computer)</li>
+                        <li>A rented computer in a data center (VPS)</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🐳 What is Docker?</h3>
+                    <p>Docker is like an app store for servers. Instead of complex installation:</p>
+                    <ul style="margin-top: 10px;">
+                        <li>Download a "container" (pre-packaged app)</li>
+                        <li>Run one command</li>
+                        <li>Your service is ready!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <pre class="ascii-art" style="font-size: 0.7em; color: var(--dim-color);">
+    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+    │   YOUR PC   │────▶│ YOUR SERVER │────▶│ YOUR APPS   │
+    └─────────────┘     └─────────────┘     └─────────────┘
+           │                    │                    │
+           ▼                    ▼                    ▼
+    [Control Panel]      [Always Online]      [Your Data]
+    [Configuration]      [Accessible]         [Your Rules]
+    [Updates]            [From Anywhere]      [No Ads]
+            </pre>
+
+            <div class="info-box">
+                <strong>💡 Pro Tip:</strong> You don't need to understand everything at once. Start with one service, learn as you go, and expand when you're comfortable. Most people start with a file storage service (like Nextcloud) or a password manager.
+            </div>
+        </div>
+
+        <!-- SERVICES TAB -->
+        <div id="services" class="tab-content">
+            <h2 class="section-header">Replace Big Tech Services</h2>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">[YT]</div>
+                        <div class="service-title">YOUR OWN YOUTUBE</div>
+                    </div>
+                    <div>Upload and stream videos without ads, censorship, or demonetization</div>
+                    <div class="service-solution">→ PeerTube</div>
+                    <ul class="feature-list">
+                        <li>Upload unlimited videos</li>
+                        <li>No ads ever</li>
+                        <li>Create channels and playlists</li>
+                        <li>Live streaming support</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>What this replaces:</strong> YouTube, Vimeo, TikTok<br>
+                        <strong>Difficulty:</strong> Medium (needs good internet upload speed)
+                    </div>
+                    <div class="links">
+                        <a href="https://joinpeertube.org/" target="_blank" class="link">WEBSITE</a>
+                        <a href="https://docs.joinpeertube.org/install-any-os" target="_blank" class="link">INSTALL</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">[MSG]</div>
+                        <div class="service-title">YOUR OWN WHATSAPP</div>
+                    </div>
+                    <div>Encrypted messaging that nobody can spy on - not even you!</div>
+                    <div class="service-solution">→ Matrix/Element</div>
+                    <ul class="feature-list">
+                        <li>End-to-end encryption</li>
+                        <li>Voice & video calls</li>
+                        <li>Group chats & channels</li>
+                        <li>Works on all devices</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>What this replaces:</strong> WhatsApp, Telegram, Discord, Slack<br>
+                        <strong>Difficulty:</strong> Easy (many one-click installers available)
+                    </div>
+                    <div class="links">
+                        <a href="https://matrix.org/" target="_blank" class="link">LEARN MORE</a>
+                        <a href="https://matrix.org/docs/guides/installing-synapse" target="_blank" class="link">SETUP</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">[SOC]</div>
+                        <div class="service-title">YOUR OWN SOCIAL NETWORK</div>
+                    </div>
+                    <div>Create a Twitter/Facebook alternative for your community</div>
+                    <div class="service-solution">→ Mastodon</div>
+                    <ul class="feature-list">
+                        <li>No algorithms manipulating feeds</li>
+                        <li>No data mining</li>
+                        <li>Connect with other servers</li>
+                        <li>Full moderation control</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>What this replaces:</strong> Twitter/X, Facebook, Instagram<br>
+                        <strong>Difficulty:</strong> Medium (needs some maintenance)
+                    </div>
+                    <div class="links">
+                        <a href="https://joinmastodon.org/" target="_blank" class="link">EXPLORE</a>
+                        <a href="https://docs.joinmastodon.org/admin/install/" target="_blank" class="link">INSTALL</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">[CLD]</div>
+                        <div class="service-title">YOUR OWN GOOGLE DRIVE</div>
+                    </div>
+                    <div>Store files, photos, documents with Office suite included</div>
+                    <div class="service-solution">→ Nextcloud</div>
+                    <ul class="feature-list">
+                        <li>Unlimited storage (your disk = your limit)</li>
+                        <li>Online document editing</li>
+                        <li>Calendar, contacts, notes</li>
+                        <li>Automatic photo backup from phone</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>What this replaces:</strong> Google Drive, Dropbox, Google Docs, Google Photos<br>
+                        <strong>Difficulty:</strong> Easy (most popular self-hosted app!)
+                    </div>
+                    <div class="links">
+                        <a href="https://nextcloud.com/" target="_blank" class="link">HOMEPAGE</a>
+                        <a href="https://docs.nextcloud.com/server/latest/admin_manual/installation/" target="_blank" class="link">DOCS</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">[VID]</div>
+                        <div class="service-title">YOUR OWN ZOOM</div>
+                    </div>
+                    <div>Video conferences without time limits or privacy concerns</div>
+                    <div class="service-solution">→ Jitsi Meet</div>
+                    <ul class="feature-list">
+                        <li>No account needed for guests</li>
+                        <li>Encrypted video calls</li>
+                        <li>Screen sharing & recording</li>
+                        <li>Unlimited meeting duration</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>What this replaces:</strong> Zoom, Google Meet, MS Teams<br>
+                        <strong>Difficulty:</strong> Easy to medium (works best with good internet)
+                    </div>
+                    <div class="links">
+                        <a href="https://jitsi.org/" target="_blank" class="link">JITSI.ORG</a>
+                        <a href="https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-quickstart" target="_blank" class="link">QUICK START</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">[PWD]</div>
+                        <div class="service-title">PASSWORD MANAGER</div>
+                    </div>
+                    <div>Store all passwords securely, sync across devices</div>
+                    <div class="service-solution">→ Vaultwarden</div>
+                    <ul class="feature-list">
+                        <li>Military-grade encryption</li>
+                        <li>Browser extensions</li>
+                        <li>Mobile apps</li>
+                        <li>Secure password sharing</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>What this replaces:</strong> LastPass, 1Password, Dashlane<br>
+                        <strong>Difficulty:</strong> Easy (critical for security - start here!)
+                    </div>
+                    <div class="links">
+                        <a href="https://github.com/dani-garcia/vaultwarden" target="_blank" class="link">GITHUB</a>
+                        <a href="https://github.com/dani-garcia/vaultwarden/wiki" target="_blank" class="link">WIKI</a>
+                    </div>
+                </div>
+            </div>
+
+            <pre class="ascii-art" style="font-size: 0.6em; margin-top: 40px;">
+┌─────────────────────────────────────────────────────────────────────┐
+│                     MORE AWESOME SERVICES                           │
+├─────────────────────────────────────────────────────────────────────┤
+│ [MEDIA]  Jellyfin    → Your Netflix (movies, shows, music)         │
+│ [BOOKS]  Calibre-Web → Your Kindle library                         │
+│ [PHOTOS] PhotoPrism  → AI-powered photo organization               │
+│ [NOTES]  Joplin      → Your Evernote/Notion                        │
+│ [EMAIL]  Mailcow     → Your Gmail (advanced users)                 │
+│ [REDDIT] Lemmy       → Your Reddit                                 │
+│ [HOME]   Home Assist → Smart home without spying                   │
+└─────────────────────────────────────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <!-- HARDWARE TAB -->
+        <div id="hardware" class="tab-content">
+            <h2 class="section-header">Hardware Options</h2>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>💰 BEGINNER: Raspberry Pi Setup (~$150)</h3>
+                    <div class="price" style="color: #00ff00;">Perfect for learning!</div>
+                    <ul class="feature-list">
+                        <li>Raspberry Pi 4 (8GB) - $75</li>
+                        <li>Case with cooling - $15</li>
+                        <li>Power supply - $10</li>
+                        <li>32GB MicroSD - $10</li>
+                        <li>1TB External HDD - $40</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>Good for:</strong> 1-5 users, learning, basic services<br>
+                        <strong>Power usage:</strong> ~15W (costs ~$2/month electricity)
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>⚡ INTERMEDIATE: Mini PC (~$400)</h3>
+                    <div class="price" style="color: #ffaa00;">Best value!</div>
+                    <ul class="feature-list">
+                        <li>Used Dell/HP Mini PC - $200</li>
+                        <li>16GB RAM upgrade - $50</li>
+                        <li>256GB SSD - $30</li>
+                        <li>2TB HDD - $50</li>
+                        <li>Backup drive - $70</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>Good for:</strong> 10-20 users, all services, reliable<br>
+                        <strong>Power usage:</strong> ~35W (costs ~$5/month electricity)
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🚀 ADVANCED: Server Build (~$800)</h3>
+                    <div class="price" style="color: #ff0000;">Maximum power!</div>
+                    <ul class="feature-list">
+                        <li>Used enterprise server - $400</li>
+                        <li>32GB ECC RAM - $100</li>
+                        <li>2x 4TB HDDs (RAID) - $160</li>
+                        <li>UPS battery backup - $140</li>
+                    </ul>
+                    <div class="beginner-note">
+                        <strong>Good for:</strong> 50+ users, business use, high availability<br>
+                        <strong>Power usage:</strong> ~100W (costs ~$15/month electricity)
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 30px;">
+                <h3>☁️ Alternative: Rent a VPS (Virtual Private Server)</h3>
+                <p>Don't want hardware at home? Rent a server online!</p>
+                <ul class="feature-list">
+                    <li><strong><a href="https://www.hetzner.com/cloud" target="_blank" style="color: #00ff00;">Hetzner Cloud</a>:</strong> €4.51/month - 2 CPU, 2GB RAM, 40GB disk</li>
+                    <li><strong><a href="https://www.netcup.de" target="_blank" style="color: #00ff00;">Netcup VPS</a>:</strong> €5.50/month - 2 CPU, 4GB RAM, 80GB disk</li>
+                    <li><strong><a href="https://www.digitalocean.com" target="_blank" style="color: #00ff00;">Digital Ocean</a>:</strong> $6/month - 1 CPU, 1GB RAM, 25GB disk</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Pros:</strong> No hardware to maintain, professional internet connection, accessible anywhere<br>
+                <strong>Cons:</strong> Monthly cost, data is off-site, some privacy trade-offs</p>
+            </div>
+
+            <pre class="ascii-art" style="font-size: 0.6em; margin-top: 40px;">
+┌──────────────────────────────────────────────────────────────┐
+│                    QUICK COMPARISON                          │
+├────────────┬─────────────┬──────────────┬──────────────────┤
+│            │ RASPBERRY PI │   MINI PC    │   VPS/CLOUD      │
+├────────────┼─────────────┼──────────────┼──────────────────┤
+│ Cost       │ $150 once   │ $400 once    │ $10/month        │
+│ Setup      │ Medium      │ Easy         │ Easiest          │
+│ Power      │ Low         │ Good         │ Unlimited        │
+│ Storage    │ Limited     │ Expandable   │ Pay per GB       │
+│ Privacy    │ Excellent   │ Excellent    │ Good             │
+│ Uptime     │ Your ISP    │ Your ISP     │ 99.9%            │
+└────────────┴─────────────┴──────────────┴──────────────────┘
+            </pre>
+        </div>
+
+        <!-- QUICK START TAB -->
+        <div id="quickstart" class="tab-content">
+            <h2 class="section-header">Get Started in 30 Minutes</h2>
+            
+            <div class="intro-section">
+                <h3>🚀 FASTEST WAY: All-in-One Solutions</h3>
+                <p>These platforms install multiple services with just a few clicks!</p>
+            </div>
+
+            <h3>Option 1: <a href="https://casaos.io" target="_blank" style="color: #00ff00;">CasaOS</a> (Recommended for Beginners)</h3>
+            <div class="command-block">
+                <code># Works on any Debian/Ubuntu system or Raspberry Pi</code>
+                <code>curl -fsSL https://get.casaos.io | sudo bash</code>
+                <code></code>
+                <code># Access at: http://your-server-ip:81</code>
+                <code># Install apps from the app store with one click!</code>
+            </div>
+
+            <div class="beginner-note">
+                <strong>What is CasaOS?</strong> It's like having an app store on your server. Browse apps, click install, done! Perfect for beginners with a beautiful interface.
+            </div>
+
+            <h3>Option 2: <a href="https://yunohost.org" target="_blank" style="color: #00ff00;">Yunohost</a> (More Apps Available)</h3>
+            <div class="command-block">
+                <code># Fresh Debian install recommended</code>
+                <code>curl https://install.yunohost.org | bash</code>
+                <code></code>
+                <code># Follow the wizard for domain setup</code>
+                <code># Access at: https://your-domain.com</code>
+            </div>
+
+            <h3>Option 3: <a href="https://docs.docker.com/compose/" target="_blank" style="color: #00ff00;">Docker Compose</a> (More Control)</h3>
+            <div class="command-block">
+                <code># Install Docker</code>
+                <code>curl -fsSL https://get.docker.com | sh</code>
+                <code>sudo usermod -aG docker $USER</code>
+                <code></code>
+                <code># Create docker-compose.yml file</code>
+                <code># Copy our starter template below</code>
+            </div>
+
+            <div class="terminal-prompt" style="margin-top: 20px;">
+                <strong>Starter docker-compose.yml for essential services:</strong>
+            </div>
+            
+            <pre style="background: #000; padding: 20px; border: 1px solid var(--primary-color); overflow-x: auto;">
+version: '3'
+services:
+  # Nextcloud - Your personal cloud
+  nextcloud:
+    image: nextcloud
+    ports:
+      - 8080:80
+    volumes:
+      - nextcloud_data:/var/www/html
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=secure_password
+
+  # Database for Nextcloud
+  db:
+    image: mariadb
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=very_secure_password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=secure_password
+
+  # Vaultwarden - Password manager
+  vaultwarden:
+    image: vaultwarden/server
+    ports:
+      - 8081:80
+    volumes:
+      - vaultwarden_data:/data
+
+volumes:
+  nextcloud_data:
+  db_data:
+  vaultwarden_data:
+</pre>
+
+            <div class="command-block">
+                <code># Save the above as docker-compose.yml, then:</code>
+                <code>docker-compose up -d</code>
+                <code></code>
+                <code># Access Nextcloud at: http://your-ip:8080</code>
+                <code># Access Vaultwarden at: http://your-ip:8081</code>
+            </div>
+
+            <h3 class="section-header">Essential First Steps</h3>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <h4>1. Domain Name (Optional but Recommended)</h4>
+                    <p>Get a domain from <a href="https://www.namecheap.com" target="_blank" style="color: #00ff00;">Namecheap</a> or <a href="https://porkbun.com" target="_blank" style="color: #00ff00;">Porkbun</a> (~$10/year)</p>
+                    <p>Point it to your server IP using DNS settings</p>
+                    <p>Use <a href="https://www.duckdns.org" target="_blank" style="color: #00ff00;">DuckDNS</a> for a free subdomain if on budget</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>2. SSL Certificates (Free!)</h4>
+                    <p>Use <a href="https://letsencrypt.org" target="_blank" style="color: #00ff00;">Let's Encrypt</a> for HTTPS</p>
+                    <p>Most platforms handle this automatically</p>
+                    <p><a href="https://nginxproxymanager.com" target="_blank" style="color: #00ff00;">Nginx Proxy Manager</a> makes it super easy</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>3. Backup Strategy</h4>
+                    <p>3-2-1 rule: 3 copies, 2 different media, 1 offsite</p>
+                    <p>Use <a href="https://www.duplicati.com" target="_blank" style="color: #00ff00;">Duplicati</a> or <a href="https://www.borgbackup.org" target="_blank" style="color: #00ff00;">Borg</a> for automated backups</p>
+                    <p>Test your backups regularly!</p>
+                </div>
+            </div>
+
+            <div class="warning-box" style="margin-top: 30px;">
+                <strong>⚠️ Security Basics - Don't Skip These!</strong>
+                <ul class="feature-list">
+                    <li>Change ALL default passwords immediately</li>
+                    <li>Enable automatic security updates</li>
+                    <li>Use a firewall (ufw is simple: <code>sudo ufw allow 22,80,443/tcp && sudo ufw enable</code>)</li>
+                    <li>Set up <a href="https://www.fail2ban.org" target="_blank" style="color: #00ff00;">fail2ban</a> to block brute force attacks</li>
+                    <li>Never expose services directly - use a reverse proxy</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ADVANCED TAB -->
+        <div id="advanced" class="tab-content">
+            <h2 class="section-header">Advanced Configurations</h2>
+
+            <h3>Reverse Proxy with <a href="https://nginxproxymanager.com" target="_blank" style="color: #00ff00;">Nginx Proxy Manager</a></h3>
+            <div class="intro-section">
+                <p>A reverse proxy is like a receptionist for your server. Instead of remembering ports like :8080, :8081, you can use nice URLs like files.yourdomain.com</p>
+            </div>
+
+            <div class="command-block">
+                <code># Add to your docker-compose.yml:</code>
+                <code>  nginx-proxy-manager:</code>
+                <code>    image: 'jc21/nginx-proxy-manager:latest'</code>
+                <code>    ports:</code>
+                <code>      - '80:80'</code>
+                <code>      - '443:443'</code>
+                <code>      - '81:81'</code>
+                <code>    volumes:</code>
+                <code>      - npm_data:/data</code>
+                <code>      - npm_ssl:/etc/letsencrypt</code>
+            </div>
+
+            <h3>Monitoring Your Services</h3>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h4><a href="https://uptime.kuma.pet" target="_blank" style="color: #00ff00;">Uptime Kuma</a></h4>
+                    <p>Beautiful status page and monitoring</p>
+                    <p>Get alerts when services go down</p>
+                    <p>Monitor external websites too</p>
+                </div>
+
+                <div class="service-card">
+                    <h4><a href="https://grafana.com" target="_blank" style="color: #00ff00;">Grafana</a> + <a href="https://prometheus.io" target="_blank" style="color: #00ff00;">Prometheus</a></h4>
+                    <p>Professional metrics and graphs</p>
+                    <p>Resource usage tracking</p>
+                    <p>Performance optimization</p>
+                </div>
+            </div>
+
+            <h3>Federation and Decentralization</h3>
+            <div class="intro-section">
+                <p><strong>What is Federation?</strong> Your server can talk to other servers! For example:</p>
+                <ul class="feature-list">
+                    <li>Your Mastodon users can follow users on other Mastodon servers</li>
+                    <li>Your Matrix chat can talk to any other Matrix server</li>
+                    <li>Your PeerTube videos can be shared across the network</li>
+                </ul>
+                <p>This creates a network of independent servers that work together - the true internet!</p>
+            </div>
+
+            <pre class="ascii-art" style="font-size: 0.6em; margin-top: 30px;">
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│ Your Server │────▶│ Friend's    │────▶│ Community   │
+│             │◀────│ Server      │◀────│ Server      │
+└─────────────┘     └─────────────┘     └─────────────┘
+       ▲                                         │
+       │                                         │
+       └─────────────────────────────────────────┘
+                    FEDERATED NETWORK
+            </pre>
+
+            <h3>Automation with <a href="https://www.ansible.com" target="_blank" style="color: #00ff00;">Ansible</a></h3>
+            <div class="command-block">
+                <code># Install multiple servers automatically</code>
+                <code># Create playbook.yml with your configuration</code>
+                <code>ansible-playbook -i hosts playbook.yml</code>
+            </div>
+
+            <h3>High Availability Setup</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>Load Balancing</h4>
+                    <p>Distribute traffic across multiple servers</p>
+                    <p>No single point of failure</p>
+                    <p>Use <a href="http://www.haproxy.org" target="_blank" style="color: #00ff00;">HAProxy</a> or <a href="https://traefik.io" target="_blank" style="color: #00ff00;">Traefik</a></p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Database Replication</h4>
+                    <p>Keep data synchronized</p>
+                    <p>Instant failover capability</p>
+                    <p>Master-slave or multi-master</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Distributed Storage</h4>
+                    <p><a href="https://www.gluster.org" target="_blank" style="color: #00ff00;">GlusterFS</a> or <a href="https://ceph.io" target="_blank" style="color: #00ff00;">Ceph</a></p>
+                    <p>Data spread across nodes</p>
+                    <p>Survives hardware failures</p>
+                </div>
+            </div>
+
+            <div class="terminal-prompt" style="margin-top: 40px;">
+                <strong>Ready to go deeper?</strong> Join the community at <a href="https://reddit.com/r/selfhosted" target="_blank" style="color: #00ff00;">r/selfhosted</a>, visit <a href="https://github.com/awesome-selfhosted/awesome-selfhosted" target="_blank" style="color: #00ff00;">awesome-selfhosted</a> on GitHub, or explore <a href="https://homelabos.com" target="_blank" style="color: #00ff00;">HomeLabOS</a> for advanced setups!
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 40px; background: #000; border-top: 2px solid var(--primary-color);">
+        <pre class="ascii-art" style="font-size: 0.6em;">
+ _____ _            _____     _                 _   _       _____     _       _ 
+|_   _| |_ ___     |     |___| |_ ___ ___ ___ ___| |_    |     |_ _| |_ ___|_|
+  | | |   | -_|    |-   -|   |  _| -_|  _|   | -_|  _|   | | | | | | | |_ -| |
+  |_| |_|_|___|    |_____|_|_|_| |___|_| |_|_|___|_|     |_|_|_|___|_| |___|_|
+                                                                               
+        RESIST • REBUILD • RECLAIM
+        </pre>
+        <p style="color: var(--dim-color); margin-top: 20px;">
+            Built with love for the decentralized web movement<br>
+            No tracking • No ads • No BS • Just freedom
+        </p>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Simple terminal effect for headers
+        const headers = document.querySelectorAll('h1, h2');
+        headers.forEach(header => {
+            header.addEventListener('mouseover', () => {
+                header.style.textShadow = '0 0 30px var(--primary-color), 0 0 60px var(--primary-color)';
+            });
+            header.addEventListener('mouseout', () => {
+                header.style.textShadow = '0 0 20px var(--primary-color)';
+            });
+        });
+    </script>
+</body>
+</html>
