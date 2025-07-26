@@ -415,6 +415,54 @@
             transform: translateY(-2px);
         }
 
+        /* Glossary Styles */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .glossary-item {
+            background: rgba(0, 255, 0, 0.03);
+            border: 1px solid var(--dim-color);
+            padding: 25px;
+            transition: all 0.3s;
+        }
+
+        .glossary-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(0, 255, 0, 0.08);
+        }
+
+        .glossary-item h3 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .glossary-item p {
+            margin-bottom: 10px;
+            color: #cccccc;
+        }
+
+        .learn-links {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid var(--dim-color);
+        }
+
+        .learn-links a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            margin-right: 15px;
+            font-size: 0.9em;
+        }
+
+        .learn-links a:hover {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5em; }
@@ -460,6 +508,7 @@
             <li><a href="#why" class="nav-link">Why</a></li>
             <li><a href="#guide" class="nav-link">Get Started</a></li>
             <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="#glossary" class="nav-link">Learn</a></li>
         </ul>
     </nav>
 
@@ -887,6 +936,159 @@
 
         <div style="text-align: center; margin-top: 50px;">
             <a href="#guide" class="cta-button">Get Your Personalized Setup Guide</a>
+        </div>
+    </section>
+
+    <!-- Glossary/Learn Section -->
+    <section id="glossary" class="section">
+        <h2>Learn the Basics</h2>
+        <p style="text-align: center; font-size: 1.2em; margin-bottom: 40px; color: var(--dim-color);">
+            Simple explanations of technical terms you'll encounter
+        </p>
+
+        <div class="glossary-grid">
+            <div class="glossary-item">
+                <h3>🖥️ What is Self-Hosting?</h3>
+                <p><strong>Simple:</strong> Running software on your own computer instead of using someone else's.</p>
+                <p><strong>Example:</strong> Instead of storing photos on Google Photos, you run your own photo app on your computer.</p>
+                <p><strong>Benefits:</strong> You own your data, no monthly fees, no one can shut it down</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Self-hosting_(web_services)" target="_blank">Wikipedia</a>
+                    <a href="https://www.reddit.com/r/selfhosted/wiki/index/" target="_blank">r/selfhosted Wiki</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>☁️ What is a VPS?</h3>
+                <p><strong>Simple:</strong> Renting a computer in a professional data center that's always online.</p>
+                <p><strong>Example:</strong> Like renting an apartment vs buying a house - you get your own space without maintenance.</p>
+                <p><strong>Benefits:</strong> Always online, fast internet, professional backups, easy upgrades</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Virtual_private_server" target="_blank">Wikipedia</a>
+                    <a href="https://www.digitalocean.com/community/tutorials/what-is-a-vps" target="_blank">VPS Explained</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🔐 What is SSH?</h3>
+                <p><strong>Simple:</strong> A secure way to control a remote computer using text commands.</p>
+                <p><strong>Example:</strong> Like remote desktop, but using typed commands instead of clicking with mouse.</p>
+                <p><strong>Why use it:</strong> It's the standard way to manage Linux servers securely</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Secure_Shell" target="_blank">Wikipedia</a>
+                    <a href="https://www.ssh.com/academy/ssh/tutorial" target="_blank">SSH Tutorial</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🐳 What is Docker?</h3>
+                <p><strong>Simple:</strong> A way to package software so it runs anywhere without complex installation.</p>
+                <p><strong>Example:</strong> Like a shipping container - the software inside works the same everywhere.</p>
+                <p><strong>Benefits:</strong> Easy installation, isolated apps, consistent performance</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Docker_(software)" target="_blank">Wikipedia</a>
+                    <a href="https://docker-curriculum.com/" target="_blank">Docker Tutorial</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🌐 What is a Domain Name?</h3>
+                <p><strong>Simple:</strong> A human-readable address for your server (like google.com)</p>
+                <p><strong>Example:</strong> Instead of remembering 1.2.3.4, you can use mycloud.com</p>
+                <p><strong>Benefits:</strong> Easy to remember, enables SSL certificates, looks professional</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Domain_name" target="_blank">Wikipedia</a>
+                    <a href="https://www.cloudflare.com/learning/dns/what-is-a-domain-name/" target="_blank">DNS Explained</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🔒 What is SSL/HTTPS?</h3>
+                <p><strong>Simple:</strong> Encryption that protects data traveling between your browser and server.</p>
+                <p><strong>Example:</strong> Like sending a locked box instead of a postcard - no one can read it in transit.</p>
+                <p><strong>Why important:</strong> Prevents data theft, required for modern browsers, builds trust</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/HTTPS" target="_blank">Wikipedia</a>
+                    <a href="https://letsencrypt.org/how-it-works/" target="_blank">Let's Encrypt</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🛡️ What is a Firewall?</h3>
+                <p><strong>Simple:</strong> A security system that controls what network traffic can reach your server.</p>
+                <p><strong>Example:</strong> Like a bouncer at a club - only lets in approved traffic on specific ports.</p>
+                <p><strong>Why important:</strong> Blocks hackers, prevents unauthorized access, essential security</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Firewall_(computing)" target="_blank">Wikipedia</a>
+                    <a href="https://www.cloudflare.com/learning/security/what-is-a-firewall/" target="_blank">Firewall Basics</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>💾 What is a Database?</h3>
+                <p><strong>Simple:</strong> Organized storage for your app's data (like users, posts, settings).</p>
+                <p><strong>Example:</strong> Like a filing cabinet with organized folders and labels for quick finding.</p>
+                <p><strong>Common types:</strong> MySQL, PostgreSQL, MongoDB - most apps need one</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Database" target="_blank">Wikipedia</a>
+                    <a href="https://www.oracle.com/database/what-is-database/" target="_blank">Database Basics</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🔄 What is a Reverse Proxy?</h3>
+                <p><strong>Simple:</strong> A server that forwards requests to other servers behind it.</p>
+                <p><strong>Example:</strong> Like a receptionist who directs visitors to the right department.</p>
+                <p><strong>Benefits:</strong> Single entry point, SSL termination, load balancing, nice URLs</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Reverse_proxy" target="_blank">Wikipedia</a>
+                    <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" target="_blank">Reverse Proxy Explained</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>📱 What is an API?</h3>
+                <p><strong>Simple:</strong> A way for different software programs to talk to each other.</p>
+                <p><strong>Example:</strong> Like a restaurant menu - it shows what you can order and how to ask for it.</p>
+                <p><strong>Why important:</strong> Enables apps to share data, connect services, automate tasks</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/API" target="_blank">Wikipedia</a>
+                    <a href="https://www.redhat.com/en/topics/api/what-are-application-programming-interfaces" target="_blank">API Explained</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🏠 What is a Home Lab?</h3>
+                <p><strong>Simple:</strong> Running your own servers and network equipment at home for learning/projects.</p>
+                <p><strong>Example:</strong> Like having a mini data center in your closet or basement.</p>
+                <p><strong>Benefits:</strong> Hands-on learning, complete control, no monthly fees, privacy</p>
+                <div class="learn-links">
+                    <a href="https://www.reddit.com/r/homelab/wiki/introduction" target="_blank">r/homelab Wiki</a>
+                    <a href="https://www.servethehome.com/introducing-the-homelab/" target="_blank">Homelab Guide</a>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <h3>🔗 What is Federation?</h3>
+                <p><strong>Simple:</strong> Different servers that can talk to each other, like email works between Gmail and Yahoo.</p>
+                <p><strong>Example:</strong> Your Mastodon server can follow people on other Mastodon servers worldwide.</p>
+                <p><strong>Benefits:</strong> Decentralized network, no single point of failure, freedom to choose servers</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Federation_(information_technology)" target="_blank">Wikipedia</a>
+                    <a href="https://www.eff.org/deeplinks/2022/11/fediverse-could-be-awesome-if-we-dont-screw-it" target="_blank">Fediverse Explained</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 255, 0, 0.05); border: 2px solid var(--primary-color); padding: 30px; margin: 40px 0; text-align: center;">
+            <h3 style="color: var(--primary-color); margin-bottom: 15px;">🎓 Want to Learn More?</h3>
+            <p>Check out these excellent learning resources:</p>
+            <div style="margin-top: 20px;">
+                <a href="https://linuxjourney.com/" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">Linux Journey</a>
+                <a href="https://docker-curriculum.com/" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">Docker Tutorial</a>
+                <a href="https://www.cloudflare.com/learning/" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">Networking Basics</a>
+                <a href="https://missing.csail.mit.edu/" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">Missing Semester</a>
+            </div>
         </div>
     </section>
 

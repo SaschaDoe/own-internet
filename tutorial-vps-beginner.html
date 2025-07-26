@@ -296,6 +296,50 @@
             margin-bottom: 10px;
         }
 
+        .explain-box {
+            background: rgba(0, 150, 255, 0.05);
+            border: 2px solid #0096ff;
+            border-left: 4px solid #0096ff;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .explain-box::before {
+            content: '💡';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5em;
+        }
+
+        .explain-box h4 {
+            color: #0096ff;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explain-box p {
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .explain-box .learn-more {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 150, 255, 0.3);
+        }
+
+        .explain-box .learn-more a {
+            color: #0096ff;
+            text-decoration: underline;
+            margin-right: 15px;
+        }
+
+        .explain-box .learn-more a:hover {
+            text-shadow: 0 0 5px #0096ff;
+        }
+
         @media (max-width: 768px) {
             .container { padding: 20px 10px; }
             .header h1 { font-size: 2em; }
@@ -362,16 +406,15 @@
                 <li>Basic ability to copy/paste commands</li>
             </ul>
 
-            <div class="info-box">
-                <strong>💡 Why VPS Instead of Home Hardware?</strong><br>
-                Virtual Private Server (VPS) means renting a computer in a professional data center. Benefits:
-                <ul class="substep-list">
-                    <li>Always online (99.9% uptime guarantee)</li>
-                    <li>Fast internet connection</li>
-                    <li>No electricity costs at home</li>
-                    <li>Professional backup systems</li>
-                    <li>Easy to upgrade when needed</li>
-                </ul>
+            <div class="explain-box">
+                <h4>What is a VPS (Virtual Private Server)?</h4>
+                <p>A VPS is like renting a computer in a professional data center. Instead of buying physical hardware, you get a "virtual" computer that runs on powerful servers.</p>
+                <p><strong>Think of it like:</strong> Renting an apartment vs buying a house. You get your own space, but the building maintenance is handled by someone else.</p>
+                <p><strong>Benefits:</strong> Always online (99.9% uptime), fast internet, no electricity costs at home, professional backups, easy upgrades</p>
+                <div class="learn-more">
+                    <a href="https://en.wikipedia.org/wiki/Virtual_private_server" target="_blank">Learn more on Wikipedia</a>
+                    <a href="https://www.digitalocean.com/community/tutorials/what-is-a-vps" target="_blank">VPS Explained</a>
+                </div>
             </div>
         </div>
 
@@ -481,6 +524,17 @@
         <div class="section" id="connect">
             <h2>🔌 Connect to Your Server <span class="essential-badge">ESSENTIAL</span></h2>
 
+            <div class="explain-box">
+                <h4>What is SSH (Secure Shell)?</h4>
+                <p>SSH is a secure way to connect to and control a remote computer using text commands. It's like having a direct phone line to your server.</p>
+                <p><strong>Think of it like:</strong> Remote desktop, but using text commands instead of clicking with a mouse. More efficient and secure.</p>
+                <p><strong>Why use it:</strong> All server management happens through SSH - it's the standard way to control Linux servers.</p>
+                <div class="learn-more">
+                    <a href="https://en.wikipedia.org/wiki/Secure_Shell" target="_blank">SSH on Wikipedia</a>
+                    <a href="https://www.ssh.com/academy/ssh" target="_blank">SSH Academy</a>
+                </div>
+            </div>
+
             <h3>Option 1: Web Console (Easiest for Beginners)</h3>
             <div class="step-list">
                 <div class="step">
@@ -523,8 +577,16 @@
         <div class="section" id="casaos">
             <h2>🏠 Install CasaOS <span class="essential-badge">ESSENTIAL</span></h2>
 
-            <h3>What is CasaOS?</h3>
-            <p>CasaOS is like having an app store for your server. Instead of complex command-line installation, you get a beautiful web interface where you can install services with one click.</p>
+            <div class="explain-box">
+                <h4>What is CasaOS?</h4>
+                <p>CasaOS is like having an app store for your server. Instead of typing complex commands, you get a beautiful web interface where you can install services with one click.</p>
+                <p><strong>Think of it like:</strong> The Apple App Store or Google Play Store, but for server software. Click "install" and it handles all the technical setup.</p>
+                <p><strong>Makes easy:</strong> Installing Nextcloud, password managers, media servers, and 100+ other applications without any technical knowledge.</p>
+                <div class="learn-more">
+                    <a href="https://casaos.io/" target="_blank">CasaOS Official Site</a>
+                    <a href="https://github.com/IceWhaleTech/CasaOS" target="_blank">CasaOS on GitHub</a>
+                </div>
+            </div>
 
             <div class="step-list">
                 <div class="step">
@@ -576,8 +638,16 @@
         <div class="section" id="nextcloud">
             <h2>☁️ Install Nextcloud <span class="essential-badge">ESSENTIAL</span></h2>
 
-            <h3>What is Nextcloud?</h3>
-            <p>Nextcloud is your personal Google Drive replacement. It provides file storage, photo backup, document editing, calendar, contacts, and much more - all under your control.</p>
+            <div class="explain-box">
+                <h4>What is Nextcloud?</h4>
+                <p>Nextcloud is your personal Google Drive replacement. It provides file storage, photo backup, document editing, calendar, contacts, and much more - all under your control.</p>
+                <p><strong>Think of it like:</strong> Google Workspace (Drive, Docs, Calendar, Photos) but running on your own server instead of Google's.</p>
+                <p><strong>Key features:</strong> Unlimited storage, file sync across devices, document editing, calendar, contacts, photo galleries, mobile apps</p>
+                <div class="learn-more">
+                    <a href="https://en.wikipedia.org/wiki/Nextcloud" target="_blank">Nextcloud on Wikipedia</a>
+                    <a href="https://nextcloud.com/athome/" target="_blank">Nextcloud for Home Users</a>
+                </div>
+            </div>
 
             <div class="step-list">
                 <div class="step">

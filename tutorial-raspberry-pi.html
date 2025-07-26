@@ -308,6 +308,31 @@
             margin-bottom: 10px;
         }
 
+        .explain-box {
+            background: rgba(0, 150, 255, 0.05);
+            border: 2px solid #0096ff;
+            border-left: 4px solid #0096ff;
+            padding: 20px;
+            margin: 20px 0;
+            color: #0096ff;
+        }
+
+        .explain-box h4 {
+            color: #0096ff;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .explain-box .learn-links {
+            margin-top: 15px;
+        }
+
+        .explain-box .learn-links a {
+            color: #0096ff;
+            text-decoration: underline;
+            margin-right: 15px;
+        }
+
         @media (max-width: 768px) {
             .container { padding: 20px 10px; }
             .header h1 { font-size: 2em; }
@@ -390,6 +415,17 @@
                     <li><a href="https://www.amazon.com/s?k=ups+battery+backup+raspberry+pi" target="_blank" class="link">UPS battery backup</a> - $30-50</li>
                     <li><a href="https://www.amazon.com/s?k=usb+3.0+ssd+external+500gb" target="_blank" class="link">USB 3.0 SSD (500GB)</a> - $45-60 (faster than HDD)</li>
                 </ul>
+            </div>
+
+            <div class="explain-box">
+                <h4>🤔 What is a Raspberry Pi?</h4>
+                <p><strong>Simple:</strong> A credit card-sized computer that can run a full operating system.</p>
+                <p><strong>Technical:</strong> Single-board computer with ARM processor, designed for education and DIY projects.</p>
+                <p><strong>Why it's perfect for servers:</strong> Low power (5W vs 100W+ for PC), always-on operation, and costs under $100.</p>
+                <div class="learn-links">
+                    <a href="https://en.wikipedia.org/wiki/Raspberry_Pi" target="_blank">Wikipedia</a>
+                    <a href="https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/" target="_blank">Official Guide</a>
+                </div>
             </div>
 
             <div class="info-box">
@@ -480,8 +516,18 @@
         <div class="section" id="os">
             <h2>💿 Install Operating System <span class="essential-badge">ESSENTIAL</span></h2>
 
+            <div class="explain-box">
+                <h4>🤔 What is DietPi?</h4>
+                <p><strong>Simple:</strong> A streamlined version of Linux specifically designed for small computers like Raspberry Pi.</p>
+                <p><strong>Technical:</strong> Lightweight Debian-based distribution with automated software installation and optimization.</p>
+                <p><strong>Why choose it:</strong> Uses less resources than standard Linux, has one-click installers for 100+ server applications.</p>
+                <div class="learn-links">
+                    <a href="https://dietpi.com/" target="_blank">Official Site</a>
+                    <a href="https://en.wikipedia.org/wiki/Linux_distribution" target="_blank">What is a Linux Distribution?</a>
+                </div>
+            </div>
+
             <h3>Why DietPi?</h3>
-            <p>DietPi is a lightweight Linux distribution optimized for single-board computers. It's perfect for beginners because:</p>
             <ul class="substep-list">
                 <li>Pre-configured for Raspberry Pi</li>
                 <li>Built-in software installer for 100+ applications</li>
@@ -580,6 +626,16 @@
 
                 <div class="step">
                     Connect via SSH
+                    <div class="explain-box">
+                        <h4>🤔 What is SSH?</h4>
+                        <p><strong>Simple:</strong> A way to control a computer remotely using text commands.</p>
+                        <p><strong>Technical:</strong> Secure Shell protocol that provides encrypted remote access to command line.</p>
+                        <p><strong>Why use it:</strong> Control your Pi from your computer without needing a monitor or keyboard connected.</p>
+                        <div class="learn-links">
+                            <a href="https://en.wikipedia.org/wiki/Secure_Shell" target="_blank">Wikipedia</a>
+                            <a href="https://www.ssh.com/academy/ssh" target="_blank">SSH Academy</a>
+                        </div>
+                    </div>
                     <ul class="substep-list">
                         <li><strong>Windows:</strong> Use built-in SSH or <a href="https://www.putty.org/" target="_blank" class="link">PuTTY</a></li>
                         <li><strong>Mac/Linux:</strong> Use terminal</li>
@@ -768,6 +824,16 @@
             <div class="step-list">
                 <div class="step">
                     Set static IP address
+                    <div class="explain-box">
+                        <h4>🤔 What is a Static IP Address?</h4>
+                        <p><strong>Simple:</strong> A permanent address for your Pi on your home network that never changes.</p>
+                        <p><strong>Technical:</strong> Fixed IP address assignment instead of dynamic allocation via DHCP.</p>
+                        <p><strong>Why needed:</strong> Your services need a consistent address that doesn't change when your Pi reboots.</p>
+                        <div class="learn-links">
+                            <a href="https://en.wikipedia.org/wiki/IP_address" target="_blank">IP Address Basics</a>
+                            <a href="https://www.howtogeek.com/184310/ask-htg-what-is-the-difference-between-dynamic-and-static-ip-addresses/" target="_blank">Static vs Dynamic</a>
+                        </div>
+                    </div>
                     <ul class="substep-list">
                         <li>In dietpi-config → "Network Options: Adapters"</li>
                         <li>Select "Ethernet" → "Change to static"</li>
@@ -779,6 +845,16 @@
 
                 <div class="step">
                     Configure router port forwarding
+                    <div class="explain-box">
+                        <h4>🤔 What is Port Forwarding?</h4>
+                        <p><strong>Simple:</strong> Telling your router to send internet traffic to your Pi when someone tries to access your services.</p>
+                        <p><strong>Technical:</strong> NAT rule that forwards external network requests to internal IP addresses and ports.</p>
+                        <p><strong>Why needed:</strong> Your router blocks external access by default. Port forwarding creates secure pathways to your services.</p>
+                        <div class="learn-links">
+                            <a href="https://en.wikipedia.org/wiki/Port_forwarding" target="_blank">Wikipedia</a>
+                            <a href="https://www.lifewire.com/how-to-port-forward-4163829" target="_blank">How-to Guide</a>
+                        </div>
+                    </div>
                     <ul class="substep-list">
                         <li>Access your router admin panel (usually 192.168.1.1)</li>
                         <li>Find "Port Forwarding" or "Virtual Servers"</li>
@@ -849,6 +925,16 @@
 
                 <div class="step">
                     Configure firewall (UFW)
+                    <div class="explain-box">
+                        <h4>🤔 What is a Firewall?</h4>
+                        <p><strong>Simple:</strong> A security guard that decides which network traffic is allowed to reach your Pi.</p>
+                        <p><strong>Technical:</strong> Network security system that monitors and controls incoming/outgoing traffic based on rules.</p>
+                        <p><strong>Why critical:</strong> Blocks malicious access attempts while allowing legitimate connections to your services.</p>
+                        <div class="learn-links">
+                            <a href="https://en.wikipedia.org/wiki/Firewall_(computing)" target="_blank">Wikipedia</a>
+                            <a href="https://ubuntu.com/server/docs/security-firewall" target="_blank">Ubuntu UFW Guide</a>
+                        </div>
+                    </div>
                     <div class="command-block">
                         <code class="comment"># Install and configure firewall</code>
                         <code>ufw default deny incoming</code>
