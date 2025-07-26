@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPS Beginner Tutorial | Build Your Own Internet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00ff00;
+            --bg-color: #0a0a0a;
+            --secondary-bg: #111;
+            --text-color: #00ff00;
+            --dim-color: rgba(0, 255, 0, 0.6);
+            --accent-color: #ff6600;
+            --danger-color: #ff4444;
+            --success-color: #00cc00;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.03) 3px
+                );
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: var(--dim-color);
+        }
+
+        .nav-breadcrumb {
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid var(--dim-color);
+        }
+
+        .nav-breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-breadcrumb a:hover {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .progress-tracker {
+            position: sticky;
+            top: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .progress-tracker h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .progress-list {
+            list-style: none;
+        }
+
+        .progress-list li {
+            padding: 5px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .progress-list li:hover {
+            color: var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .progress-list li.completed {
+            color: var(--success-color);
+        }
+
+        .progress-list li.current {
+            color: var(--primary-color);
+            font-weight: bold;
+            background: rgba(0, 255, 0, 0.1);
+            padding-left: 10px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(0, 255, 0, 0.02);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .section h3 {
+            color: var(--accent-color);
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .essential-badge {
+            background: var(--success-color);
+            color: #000;
+            padding: 3px 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .optional-badge {
+            background: var(--dim-color);
+            color: #000;
+            padding: 3px 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .command-block {
+            background: #000;
+            border: 1px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-block code {
+            color: var(--primary-color);
+            display: block;
+            margin: 5px 0;
+        }
+
+        .command-block .comment {
+            color: var(--dim-color);
+        }
+
+        .warning-box {
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px solid var(--danger-color);
+            padding: 20px;
+            margin: 20px 0;
+            color: var(--danger-color);
+        }
+
+        .info-box {
+            background: rgba(0, 150, 255, 0.1);
+            border: 2px solid #0096ff;
+            padding: 20px;
+            margin: 20px 0;
+            color: #0096ff;
+        }
+
+        .success-box {
+            background: rgba(0, 204, 0, 0.1);
+            border: 2px solid var(--success-color);
+            padding: 20px;
+            margin: 20px 0;
+            color: var(--success-color);
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            counter-increment: step-counter;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .step::before {
+            content: "Step " counter(step-counter) ": ";
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .substep-list {
+            margin: 15px 0 15px 20px;
+        }
+
+        .substep-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .substep-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .link {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transition: all 0.3s;
+        }
+
+        .link:hover {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .cost-breakdown {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .cost-breakdown h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--dim-color);
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, var(--primary-color), #00cc00);
+            color: #000;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .nav-button.secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .troubleshooting {
+            background: rgba(255, 102, 0, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .troubleshooting h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px 10px; }
+            .header h1 { font-size: 2em; }
+            .progress-tracker { position: relative; }
+            .nav-buttons { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-breadcrumb">
+            <a href="index.html">← Back to Home</a> > VPS Beginner Tutorial
+        </div>
+
+        <div class="header">
+            <h1>VPS Beginner Tutorial</h1>
+            <p class="subtitle">From Zero to Your Own Cloud Storage in 30 Minutes</p>
+        </div>
+
+        <div class="progress-tracker">
+            <h3>📋 Progress Tracker</h3>
+            <ul class="progress-list">
+                <li class="current" onclick="scrollToSection('overview')">Overview & Requirements</li>
+                <li onclick="scrollToSection('signup')">Sign Up for VPS</li>
+                <li onclick="scrollToSection('server')">Create Your Server</li>
+                <li onclick="scrollToSection('connect')">Connect to Server</li>
+                <li onclick="scrollToSection('casaos')">Install CasaOS</li>
+                <li onclick="scrollToSection('nextcloud')">Install Nextcloud</li>
+                <li onclick="scrollToSection('domain')">Setup Domain (Optional)</li>
+                <li onclick="scrollToSection('security')">Security Essentials</li>
+                <li onclick="scrollToSection('backup')">Backup Setup</li>
+                <li onclick="scrollToSection('maintenance')">Maintenance & Updates</li>
+                <li onclick="scrollToSection('expand')">Adding More Services</li>
+            </ul>
+        </div>
+
+        <div class="section" id="overview">
+            <h2>📖 Overview & Requirements <span class="essential-badge">ESSENTIAL</span></h2>
+            
+            <h3>What You'll Build</h3>
+            <p>By the end of this tutorial, you'll have:</p>
+            <ul class="substep-list">
+                <li>Your own cloud storage (replaces Google Drive/Dropbox)</li>
+                <li>Accessible from anywhere with internet</li>
+                <li>Unlimited storage space (pay only for what you use)</li>
+                <li>Complete privacy - no one can access your files</li>
+                <li>Easy web interface for managing everything</li>
+            </ul>
+
+            <div class="cost-breakdown">
+                <h4>💰 Cost Breakdown</h4>
+                <ul class="substep-list">
+                    <li><strong>Monthly:</strong> €4.51/month for Hetzner Cloud VPS</li>
+                    <li><strong>Domain (optional):</strong> ~$10/year</li>
+                    <li><strong>Total first year:</strong> ~$65 (vs $120+ for Google/Dropbox)</li>
+                </ul>
+            </div>
+
+            <h3>What You Need Before Starting</h3>
+            <ul class="substep-list">
+                <li>A computer (Windows, Mac, or Linux)</li>
+                <li>Credit card or PayPal for VPS payment</li>
+                <li>30 minutes of focused time</li>
+                <li>Basic ability to copy/paste commands</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Why VPS Instead of Home Hardware?</strong><br>
+                Virtual Private Server (VPS) means renting a computer in a professional data center. Benefits:
+                <ul class="substep-list">
+                    <li>Always online (99.9% uptime guarantee)</li>
+                    <li>Fast internet connection</li>
+                    <li>No electricity costs at home</li>
+                    <li>Professional backup systems</li>
+                    <li>Easy to upgrade when needed</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="signup">
+            <h2>🏗️ Sign Up for VPS <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Why Hetzner Cloud?</h3>
+            <ul class="substep-list">
+                <li>Most affordable in Europe (€4.51/month)</li>
+                <li>Excellent reputation and uptime</li>
+                <li>GDPR compliant (European privacy laws)</li>
+                <li>Simple interface for beginners</li>
+                <li>Great support community</li>
+            </ul>
+
+            <div class="step-list">
+                <div class="step">
+                    Go to <a href="https://www.hetzner.com/cloud" target="_blank" class="link">Hetzner Cloud</a>
+                    <ul class="substep-list">
+                        <li>Click "Sign Up" in the top right</li>
+                        <li>Use your real email address (you'll need to verify it)</li>
+                        <li>Choose a strong password (or use your password manager)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Verify your email address
+                    <ul class="substep-list">
+                        <li>Check your email for Hetzner verification</li>
+                        <li>Click the verification link</li>
+                        <li>Complete the email verification process</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Add payment method
+                    <ul class="substep-list">
+                        <li>Go to "Billing" in your Hetzner console</li>
+                        <li>Add your credit card or PayPal</li>
+                        <li>You won't be charged until you create a server</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> Hetzner requires identity verification for new accounts. Have your ID/passport ready - this is normal for European companies due to regulations.
+            </div>
+        </div>
+
+        <div class="section" id="server">
+            <h2>🖥️ Create Your Server <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <div class="step-list">
+                <div class="step">
+                    Create new project
+                    <ul class="substep-list">
+                        <li>Log into your Hetzner console</li>
+                        <li>Click "New Project"</li>
+                        <li>Name it "My Personal Cloud" or similar</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Create server
+                    <ul class="substep-list">
+                        <li>Click "Add Server"</li>
+                        <li><strong>Location:</strong> Choose closest to you (Nuremberg/Helsinki/Ashburn)</li>
+                        <li><strong>Image:</strong> Ubuntu 22.04 (most stable)</li>
+                        <li><strong>Type:</strong> CX31 (2 vCPU, 8 GB RAM, 80 GB SSD) - €4.51/month</li>
+                        <li><strong>Networking:</strong> Leave defaults (IPv4 enabled)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Configure access
+                    <ul class="substep-list">
+                        <li><strong>SSH Keys:</strong> Skip for now (we'll use password first)</li>
+                        <li><strong>User Data:</strong> Leave empty</li>
+                        <li><strong>Name:</strong> "personal-cloud-1" or similar</li>
+                        <li>Click "Create & Buy Now"</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Wait for server creation
+                    <ul class="substep-list">
+                        <li>Server will be ready in ~30 seconds</li>
+                        <li>You'll see a green "Running" status</li>
+                        <li>Note down the IP address (looks like 1.2.3.4)</li>
+                        <li>Check your email for root password</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 What just happened?</strong><br>
+                You just rented a computer in a German data center. It has:
+                <ul class="substep-list">
+                    <li>2 CPU cores (like a decent laptop)</li>
+                    <li>8GB RAM (more than many phones)</li>
+                    <li>80GB storage (plenty for thousands of photos)</li>
+                    <li>1000 Mbps internet (faster than most homes)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="connect">
+            <h2>🔌 Connect to Your Server <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Option 1: Web Console (Easiest for Beginners)</h3>
+            <div class="step-list">
+                <div class="step">
+                    Use Hetzner's web console
+                    <ul class="substep-list">
+                        <li>In your server panel, click the server name</li>
+                        <li>Click "Console" tab</li>
+                        <li>Click "Open Console in Browser"</li>
+                        <li>Login as "root" with the password from email</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Option 2: SSH Client (More Professional)</h3>
+            <div class="step-list">
+                <div class="step">
+                    Windows users: Install SSH client
+                    <ul class="substep-list">
+                        <li>Windows 10/11: SSH is built-in (use Command Prompt)</li>
+                        <li>Or download <a href="https://www.putty.org/" target="_blank" class="link">PuTTY</a> for a GUI</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Connect via SSH
+                    <div class="command-block">
+                        <code class="comment"># Replace 1.2.3.4 with your server's IP</code>
+                        <code>ssh root@1.2.3.4</code>
+                        <code class="comment"># Type 'yes' when asked about fingerprint</code>
+                        <code class="comment"># Enter the password from your email</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Success Check:</strong> You should see something like "root@ubuntu-server:~#" - this means you're connected!
+            </div>
+        </div>
+
+        <div class="section" id="casaos">
+            <h2>🏠 Install CasaOS <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>What is CasaOS?</h3>
+            <p>CasaOS is like having an app store for your server. Instead of complex command-line installation, you get a beautiful web interface where you can install services with one click.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Update your server
+                    <div class="command-block">
+                        <code class="comment"># Update package list</code>
+                        <code>apt update</code>
+                        <code class="comment"># Upgrade installed packages</code>
+                        <code>apt upgrade -y</code>
+                    </div>
+                    <p>This ensures your server has the latest security updates. Takes 2-3 minutes.</p>
+                </div>
+
+                <div class="step">
+                    Install CasaOS
+                    <div class="command-block">
+                        <code class="comment"># Download and install CasaOS</code>
+                        <code>curl -fsSL https://get.casaos.io | sudo bash</code>
+                    </div>
+                    <p>This command downloads and installs CasaOS automatically. Takes 3-5 minutes.</p>
+                </div>
+
+                <div class="step">
+                    Access CasaOS web interface
+                    <ul class="substep-list">
+                        <li>Open your web browser</li>
+                        <li>Go to: http://YOUR-SERVER-IP (replace with your IP)</li>
+                        <li>You should see the CasaOS welcome screen</li>
+                        <li>Follow the setup wizard (create username/password)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting">
+                <h4>🔧 Can't Access CasaOS?</h4>
+                <ul class="substep-list">
+                    <li>Make sure you're using http:// not https://</li>
+                    <li>Try http://YOUR-SERVER-IP:81 instead</li>
+                    <li>Check if firewall is blocking: <code>ufw status</code></li>
+                    <li>If ufw is active: <code>ufw allow 80,81,443/tcp</code></li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Success Check:</strong> You should see CasaOS dashboard with colorful tiles and an app store icon.
+            </div>
+        </div>
+
+        <div class="section" id="nextcloud">
+            <h2>☁️ Install Nextcloud <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>What is Nextcloud?</h3>
+            <p>Nextcloud is your personal Google Drive replacement. It provides file storage, photo backup, document editing, calendar, contacts, and much more - all under your control.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Open CasaOS App Store
+                    <ul class="substep-list">
+                        <li>In CasaOS dashboard, click "App Store" icon</li>
+                        <li>Search for "Nextcloud"</li>
+                        <li>Click on the official Nextcloud app</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Nextcloud
+                    <ul class="substep-list">
+                        <li>Click "Install" button</li>
+                        <li>Leave default settings (CasaOS handles everything)</li>
+                        <li>Wait 3-5 minutes for installation</li>
+                        <li>You'll see Nextcloud appear in your dashboard</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Initial Nextcloud setup
+                    <ul class="substep-list">
+                        <li>Click the Nextcloud tile in CasaOS</li>
+                        <li>Create admin username and password</li>
+                        <li>Leave database settings as default</li>
+                        <li>Click "Finish Setup"</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Explore your new cloud
+                    <ul class="substep-list">
+                        <li>Upload some test files</li>
+                        <li>Try the photo gallery</li>
+                        <li>Check out the calendar and contacts</li>
+                        <li>Install mobile apps from app stores</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>📱 Mobile Access:</strong>
+                <ul class="substep-list">
+                    <li><strong>Android:</strong> <a href="https://play.google.com/store/apps/details?id=com.nextcloud.client" target="_blank" class="link">Nextcloud on Google Play</a></li>
+                    <li><strong>iPhone:</strong> <a href="https://apps.apple.com/app/nextcloud/id1125420102" target="_blank" class="link">Nextcloud on App Store</a></li>
+                    <li>Use your server IP and login credentials</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <strong>🎉 Congratulations!</strong> You now have your own cloud storage that rivals Google Drive, completely under your control!
+            </div>
+        </div>
+
+        <div class="section" id="domain">
+            <h2>🌐 Setup Domain Name <span class="optional-badge">OPTIONAL</span></h2>
+
+            <h3>Why Get a Domain?</h3>
+            <p>Instead of remembering 1.2.3.4, you can access your cloud at mycloud.example.com. This also enables proper SSL certificates for security.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Purchase a domain
+                    <ul class="substep-list">
+                        <li>Recommended registrars: <a href="https://www.namecheap.com" target="_blank" class="link">Namecheap</a>, <a href="https://porkbun.com" target="_blank" class="link">Porkbun</a></li>
+                        <li>Choose something memorable like yourname-cloud.com</li>
+                        <li>Cost: ~$10-15/year depending on extension</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Configure DNS
+                    <ul class="substep-list">
+                        <li>In your domain registrar's control panel</li>
+                        <li>Create an A record pointing to your server IP</li>
+                        <li>Example: cloud.yourdomain.com → 1.2.3.4</li>
+                        <li>DNS changes take 10-60 minutes to propagate</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Enable HTTPS in CasaOS
+                    <ul class="substep-list">
+                        <li>Go to CasaOS Settings</li>
+                        <li>Find SSL/Certificate section</li>
+                        <li>Enter your domain name</li>
+                        <li>Enable Let's Encrypt automatic certificates</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Free Alternative:</strong> Use <a href="https://www.duckdns.org" target="_blank" class="link">DuckDNS</a> for a free subdomain like yourname.duckdns.org
+            </div>
+        </div>
+
+        <div class="section" id="security">
+            <h2>🔒 Security Essentials <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <div class="warning-box">
+                <strong>⚠️ Critical:</strong> Your server is exposed to the internet. These security steps are not optional!
+            </div>
+
+            <div class="step-list">
+                <div class="step">
+                    Enable firewall
+                    <div class="command-block">
+                        <code class="comment"># Allow essential ports</code>
+                        <code>ufw allow 22/tcp</code>
+                        <code class="comment"># Allow web traffic</code>
+                        <code>ufw allow 80,443/tcp</code>
+                        <code class="comment"># Allow CasaOS</code>
+                        <code>ufw allow 81/tcp</code>
+                        <code class="comment"># Enable firewall</code>
+                        <code>ufw enable</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Install fail2ban (blocks brute force attacks)
+                    <div class="command-block">
+                        <code>apt install fail2ban -y</code>
+                        <code>systemctl enable fail2ban</code>
+                        <code>systemctl start fail2ban</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Enable automatic security updates
+                    <div class="command-block">
+                        <code>apt install unattended-upgrades -y</code>
+                        <code>dpkg-reconfigure -plow unattended-upgrades</code>
+                        <code class="comment"># Select "Yes" when prompted</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Change default passwords
+                    <ul class="substep-list">
+                        <li>Change your server root password: <code>passwd</code></li>
+                        <li>Use a strong password (20+ characters, mixed case, numbers, symbols)</li>
+                        <li>Consider using SSH keys instead of passwords (advanced)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>🛡️ Advanced Security (Optional):</strong>
+                <ul class="substep-list">
+                    <li>Setup SSH key authentication</li>
+                    <li>Change SSH port from 22 to something else</li>
+                    <li>Install intrusion detection (AIDE)</li>
+                    <li>Setup VPN access only</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="backup">
+            <h2>💾 Backup Setup <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Why Backups Matter</h3>
+            <p>Your VPS could fail, get hacked, or you might accidentally delete something. The 3-2-1 rule: 3 copies of data, 2 different storage types, 1 offsite.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Enable Hetzner snapshots
+                    <ul class="substep-list">
+                        <li>Go to your Hetzner console</li>
+                        <li>Click your server → "Snapshots"</li>
+                        <li>Create a manual snapshot first</li>
+                        <li>Enable automatic daily snapshots (+€1.30/month)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Setup Nextcloud external storage backup
+                    <ul class="substep-list">
+                        <li>Get a cloud storage account (Google Drive, Dropbox, etc.)</li>
+                        <li>In Nextcloud: Apps → External storage</li>
+                        <li>Configure external storage as backup destination</li>
+                        <li>Setup automatic sync of important files</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install backup software (Advanced)
+                    <div class="command-block">
+                        <code class="comment"># Install Duplicati via CasaOS app store</code>
+                        <code class="comment"># Or use command line tools</code>
+                        <code>apt install duplicity -y</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Backup Strategy:</strong>
+                <ul class="substep-list">
+                    <li><strong>Level 1:</strong> Hetzner snapshots (server-level backup)</li>
+                    <li><strong>Level 2:</strong> Nextcloud external storage (file-level backup)</li>
+                    <li><strong>Level 3:</strong> Download important files locally</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="maintenance">
+            <h2>🔧 Maintenance & Updates <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Weekly Tasks (5 minutes)</h3>
+            <div class="step-list">
+                <div class="step">
+                    Check system updates
+                    <div class="command-block">
+                        <code>apt update && apt list --upgradable</code>
+                        <code class="comment"># Apply non-kernel updates</code>
+                        <code>apt upgrade -y</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Check CasaOS for app updates
+                    <ul class="substep-list">
+                        <li>Open CasaOS dashboard</li>
+                        <li>Look for update notifications</li>
+                        <li>Update apps one by one (test after each)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Monthly Tasks (15 minutes)</h3>
+            <div class="step-list">
+                <div class="step">
+                    Review security logs
+                    <div class="command-block">
+                        <code class="comment"># Check failed login attempts</code>
+                        <code>fail2ban-client status sshd</code>
+                        <code class="comment"># Check system logs</code>
+                        <code>journalctl --since "1 month ago" -p err</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Test your backups
+                    <ul class="substep-list">
+                        <li>Download a few files from your backup</li>
+                        <li>Verify Hetzner snapshots are working</li>
+                        <li>Test restore process (in a test environment)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Monitor disk space
+                    <div class="command-block">
+                        <code>df -h</code>
+                        <code class="comment"># Clean up if needed</code>
+                        <code>apt autoremove -y</code>
+                        <code>apt autoclean</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Before Major Updates:</strong> Always create a snapshot first! Major updates can break things, and you'll want a way to roll back.
+            </div>
+        </div>
+
+        <div class="section" id="expand">
+            <h2>🚀 Adding More Services <span class="optional-badge">NICE TO HAVE</span></h2>
+
+            <h3>Popular Next Steps</h3>
+            <div class="step-list">
+                <div class="step">
+                    Password Manager (Vaultwarden)
+                    <ul class="substep-list">
+                        <li>Install from CasaOS app store</li>
+                        <li>Replaces LastPass/1Password</li>
+                        <li>Access at yourserver.com/vaultwarden</li>
+                        <li>Setup guide: <a href="https://github.com/dani-garcia/vaultwarden/wiki" target="_blank" class="link">Vaultwarden Wiki</a></li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Photo Management (PhotoPrism)
+                    <ul class="substep-list">
+                        <li>AI-powered photo organization</li>
+                        <li>Face recognition and auto-tagging</li>
+                        <li>Replaces Google Photos</li>
+                        <li>Requires more RAM (consider upgrading to CX41)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Media Server (Jellyfin)
+                    <ul class="substep-list">
+                        <li>Your personal Netflix</li>
+                        <li>Stream movies, TV shows, music</li>
+                        <li>Works on all devices</li>
+                        <li>Consider adding storage volume for media</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Document Editor (OnlyOffice)
+                    <ul class="substep-list">
+                        <li>Integrates with Nextcloud</li>
+                        <li>Full Microsoft Office compatibility</li>
+                        <li>Real-time collaboration</li>
+                        <li>Replaces Google Docs/Microsoft 365</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Resource Considerations</h3>
+            <div class="info-box">
+                <strong>📊 When to Upgrade Your VPS:</strong>
+                <ul class="substep-list">
+                    <li><strong>CX31 (current):</strong> Good for 1-3 services, light usage</li>
+                    <li><strong>CX41 (€8.21/month):</strong> 4 vCPU, 16GB RAM - good for 5-10 services</li>
+                    <li><strong>CX51 (€15.73/month):</strong> 8 vCPU, 32GB RAM - handles everything</li>
+                </ul>
+                <p>You can upgrade anytime with zero downtime in Hetzner console!</p>
+            </div>
+
+            <h3>Advanced Setups</h3>
+            <ul class="substep-list">
+                <li><strong>Reverse Proxy:</strong> Use one domain for multiple services</li>
+                <li><strong>VPN Server:</strong> Secure access to your services</li>
+                <li><strong>Monitoring:</strong> Uptime Kuma for service monitoring</li>
+                <li><strong>Email Server:</strong> Your own Gmail (advanced users only)</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <h3>🎉 Tutorial Complete!</h3>
+            <p>Congratulations! You now have:</p>
+            <ul class="substep-list">
+                <li>✅ Your own cloud storage (replacing Google Drive)</li>
+                <li>✅ Secure, private file access from anywhere</li>
+                <li>✅ Professional server setup with security</li>
+                <li>✅ Automatic backups and maintenance plan</li>
+                <li>✅ Foundation to add more services</li>
+            </ul>
+            <p><strong>You've taken the first step toward digital independence!</strong></p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-button secondary">← Back to Home</a>
+            <a href="#expand" class="nav-button">Add More Services →</a>
+        </div>
+    </div>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update progress tracker
+            document.querySelectorAll('.progress-list li').forEach(li => {
+                li.classList.remove('current');
+            });
+            event.target.classList.add('current');
+        }
+
+        // Auto-update progress as user scrolls
+        window.addEventListener('scroll', () => {
+            const sections = ['overview', 'signup', 'server', 'connect', 'casaos', 'nextcloud', 'domain', 'security', 'backup', 'maintenance', 'expand'];
+            const progressItems = document.querySelectorAll('.progress-list li');
+            
+            sections.forEach((sectionId, index) => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 200 && rect.bottom >= 200) {
+                        progressItems.forEach(item => item.classList.remove('current'));
+                        if (progressItems[index]) {
+                            progressItems[index].classList.add('current');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

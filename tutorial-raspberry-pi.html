@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Tutorial | Build Your Own Internet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00ff00;
+            --bg-color: #0a0a0a;
+            --secondary-bg: #111;
+            --text-color: #00ff00;
+            --dim-color: rgba(0, 255, 0, 0.6);
+            --accent-color: #ff6600;
+            --danger-color: #ff4444;
+            --success-color: #00cc00;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.03) 3px
+                );
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: var(--dim-color);
+        }
+
+        .nav-breadcrumb {
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid var(--dim-color);
+        }
+
+        .nav-breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-breadcrumb a:hover {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .progress-tracker {
+            position: sticky;
+            top: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 40px;
+            z-index: 100;
+        }
+
+        .progress-tracker h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .progress-list {
+            list-style: none;
+        }
+
+        .progress-list li {
+            padding: 5px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .progress-list li:hover {
+            color: var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .progress-list li.completed {
+            color: var(--success-color);
+        }
+
+        .progress-list li.current {
+            color: var(--primary-color);
+            font-weight: bold;
+            background: rgba(0, 255, 0, 0.1);
+            padding-left: 10px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(0, 255, 0, 0.02);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .section h3 {
+            color: var(--accent-color);
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .essential-badge {
+            background: var(--success-color);
+            color: #000;
+            padding: 3px 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .optional-badge {
+            background: var(--dim-color);
+            color: #000;
+            padding: 3px 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .command-block {
+            background: #000;
+            border: 1px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-block code {
+            color: var(--primary-color);
+            display: block;
+            margin: 5px 0;
+        }
+
+        .command-block .comment {
+            color: var(--dim-color);
+        }
+
+        .warning-box {
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px solid var(--danger-color);
+            padding: 20px;
+            margin: 20px 0;
+            color: var(--danger-color);
+        }
+
+        .info-box {
+            background: rgba(0, 150, 255, 0.1);
+            border: 2px solid #0096ff;
+            padding: 20px;
+            margin: 20px 0;
+            color: #0096ff;
+        }
+
+        .success-box {
+            background: rgba(0, 204, 0, 0.1);
+            border: 2px solid var(--success-color);
+            padding: 20px;
+            margin: 20px 0;
+            color: var(--success-color);
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            counter-increment: step-counter;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .step::before {
+            content: "Step " counter(step-counter) ": ";
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .substep-list {
+            margin: 15px 0 15px 20px;
+        }
+
+        .substep-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .substep-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .link {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transition: all 0.3s;
+        }
+
+        .link:hover {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .cost-breakdown {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .cost-breakdown h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .shopping-list {
+            background: rgba(255, 102, 0, 0.1);
+            border: 2px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .shopping-list h4 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--dim-color);
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, var(--primary-color), #00cc00);
+            color: #000;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .nav-button.secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .troubleshooting {
+            background: rgba(255, 102, 0, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .troubleshooting h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px 10px; }
+            .header h1 { font-size: 2em; }
+            .progress-tracker { position: relative; }
+            .nav-buttons { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-breadcrumb">
+            <a href="index.html">← Back to Home</a> > Raspberry Pi Tutorial
+        </div>
+
+        <div class="header">
+            <h1>Raspberry Pi Home Server</h1>
+            <p class="subtitle">Build Your Own Hardware, Learn Everything, Save Money Long-Term</p>
+        </div>
+
+        <div class="progress-tracker">
+            <h3>📋 Progress Tracker</h3>
+            <ul class="progress-list">
+                <li class="current" onclick="scrollToSection('overview')">Overview & Shopping</li>
+                <li onclick="scrollToSection('assembly')">Hardware Assembly</li>
+                <li onclick="scrollToSection('os')">Install Operating System</li>
+                <li onclick="scrollToSection('initial')">Initial Setup</li>
+                <li onclick="scrollToSection('dietpi')">Configure DietPi</li>
+                <li onclick="scrollToSection('services')">Install Services</li>
+                <li onclick="scrollToSection('network')">Network Configuration</li>
+                <li onclick="scrollToSection('security')">Security Hardening</li>
+                <li onclick="scrollToSection('backup')">Backup Strategy</li>
+                <li onclick="scrollToSection('monitoring')">Monitoring & Maintenance</li>
+                <li onclick="scrollToSection('expand')">Expanding Your Setup</li>
+            </ul>
+        </div>
+
+        <div class="section" id="overview">
+            <h2>📖 Overview & Shopping List <span class="essential-badge">ESSENTIAL</span></h2>
+            
+            <h3>What You'll Build</h3>
+            <p>A complete home server that runs 24/7 in your house, providing:</p>
+            <ul class="substep-list">
+                <li>Personal cloud storage (Nextcloud)</li>
+                <li>Password manager (Vaultwarden)</li>
+                <li>Media streaming (Jellyfin)</li>
+                <li>Photo management (PhotoPrism)</li>
+                <li>Ad-blocking for your whole network (Pi-hole)</li>
+                <li>VPN server for secure remote access</li>
+            </ul>
+
+            <div class="cost-breakdown">
+                <h4>💰 Cost Breakdown</h4>
+                <ul class="substep-list">
+                    <li><strong>One-time hardware cost:</strong> ~$150-200</li>
+                    <li><strong>Monthly electricity:</strong> ~$2-3</li>
+                    <li><strong>Break-even vs VPS:</strong> 3-4 months</li>
+                    <li><strong>5-year savings:</strong> $800+ compared to cloud services</li>
+                </ul>
+            </div>
+
+            <div class="shopping-list">
+                <h4>🛒 Complete Shopping List</h4>
+                <p><strong>Essential Components (~$150):</strong></p>
+                <ul class="substep-list">
+                    <li><a href="https://www.raspberrypi.com/products/raspberry-pi-4-model-b/" target="_blank" class="link">Raspberry Pi 4 Model B (8GB RAM)</a> - $75-85</li>
+                    <li><a href="https://www.amazon.com/s?k=raspberry+pi+4+case+fan" target="_blank" class="link">Case with active cooling fan</a> - $15-20</li>
+                    <li><a href="https://www.amazon.com/s?k=raspberry+pi+power+supply+official" target="_blank" class="link">Official 15.3W USB-C Power Supply</a> - $8-12</li>
+                    <li><a href="https://www.amazon.com/s?k=sandisk+extreme+microsd+64gb" target="_blank" class="link">High-quality microSD card (64GB+)</a> - $12-18</li>
+                    <li><a href="https://www.amazon.com/s?k=ethernet+cable+cat6" target="_blank" class="link">Ethernet cable (Cat6)</a> - $5-8</li>
+                </ul>
+                
+                <p><strong>Recommended Additions (~$50):</strong></p>
+                <ul class="substep-list">
+                    <li><a href="https://www.amazon.com/s?k=usb+3.0+external+hard+drive+1tb" target="_blank" class="link">1TB USB 3.0 External HDD</a> - $45-55 (for bulk storage)</li>
+                    <li><a href="https://www.amazon.com/s?k=raspberry+pi+heatsink+kit" target="_blank" class="link">Heatsink kit</a> - $5-8 (extra cooling)</li>
+                </ul>
+
+                <p><strong>Optional Pro Upgrades (~$100):</strong></p>
+                <ul class="substep-list">
+                    <li><a href="https://www.amazon.com/s?k=ups+battery+backup+raspberry+pi" target="_blank" class="link">UPS battery backup</a> - $30-50</li>
+                    <li><a href="https://www.amazon.com/s?k=usb+3.0+ssd+external+500gb" target="_blank" class="link">USB 3.0 SSD (500GB)</a> - $45-60 (faster than HDD)</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Why Raspberry Pi?</strong>
+                <ul class="substep-list">
+                    <li>Extremely low power consumption (5-10W vs 100W+ for PC)</li>
+                    <li>Silent operation (no fans in basic setup)</li>
+                    <li>Compact size (fits in your palm)</li>
+                    <li>Strong community support and tutorials</li>
+                    <li>ARM processor teaches you different architecture</li>
+                    <li>Perfect learning platform for Linux and networking</li>
+                </ul>
+            </div>
+
+            <h3>What You Need to Know</h3>
+            <ul class="substep-list">
+                <li>Basic computer skills (copy/paste, follow instructions)</li>
+                <li>Comfort with trying new things and troubleshooting</li>
+                <li>Access to your router (to configure port forwarding)</li>
+                <li>Willingness to learn - this is more educational than VPS route</li>
+            </ul>
+        </div>
+
+        <div class="section" id="assembly">
+            <h2>🔧 Hardware Assembly <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <div class="step-list">
+                <div class="step">
+                    Prepare your workspace
+                    <ul class="substep-list">
+                        <li>Clean, static-free surface</li>
+                        <li>Good lighting</li>
+                        <li>Small screwdriver if case requires it</li>
+                        <li>Have your smartphone ready for photos (documentation)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install heatsinks (if purchased)
+                    <ul class="substep-list">
+                        <li>Clean the CPU and GPU chips with alcohol wipe</li>
+                        <li>Remove heatsink backing and apply firmly</li>
+                        <li>Largest heatsink goes on the main CPU chip</li>
+                        <li>Apply gentle pressure for 10 seconds</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Pi in case
+                    <ul class="substep-list">
+                        <li>Open your case (usually top and bottom pieces)</li>
+                        <li>Gently place Pi in bottom part</li>
+                        <li>Ensure all ports align with case openings</li>
+                        <li>Don't force anything - should fit easily</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Connect cooling fan (if included)
+                    <ul class="substep-list">
+                        <li>Find GPIO pins 4 (5V) and 6 (Ground) on the Pi</li>
+                        <li>Red wire to pin 4, black wire to pin 6</li>
+                        <li>Refer to case instructions for exact placement</li>
+                        <li>Fan should start spinning when powered on</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Close case and prepare connections
+                    <ul class="substep-list">
+                        <li>Close case carefully - don't pinch any wires</li>
+                        <li>Insert microSD card (we'll write to it next)</li>
+                        <li>Connect ethernet cable</li>
+                        <li>Don't connect power yet!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Static Electricity:</strong> Touch a grounded metal object before handling the Pi. Static can damage sensitive electronics.
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Assembly Complete!</strong> Your Pi should be neatly housed with proper cooling, ready for software installation.
+            </div>
+        </div>
+
+        <div class="section" id="os">
+            <h2>💿 Install Operating System <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Why DietPi?</h3>
+            <p>DietPi is a lightweight Linux distribution optimized for single-board computers. It's perfect for beginners because:</p>
+            <ul class="substep-list">
+                <li>Pre-configured for Raspberry Pi</li>
+                <li>Built-in software installer for 100+ applications</li>
+                <li>Automated optimization and security</li>
+                <li>Excellent documentation and community</li>
+                <li>Minimal resource usage</li>
+            </ul>
+
+            <div class="step-list">
+                <div class="step">
+                    Download DietPi image
+                    <ul class="substep-list">
+                        <li>Go to <a href="https://dietpi.com/#downloadhw" target="_blank" class="link">DietPi Download Page</a></li>
+                        <li>Select "Raspberry Pi" from the hardware list</li>
+                        <li>Download the latest stable image (.img file)</li>
+                        <li>File will be ~400MB compressed</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Download and install Raspberry Pi Imager
+                    <ul class="substep-list">
+                        <li>Visit <a href="https://www.raspberrypi.com/software/" target="_blank" class="link">Raspberry Pi Imager</a></li>
+                        <li>Download for your OS (Windows/Mac/Linux)</li>
+                        <li>Install and run the application</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Flash DietPi to SD card
+                    <ul class="substep-list">
+                        <li>Insert microSD card into your computer</li>
+                        <li>Open Raspberry Pi Imager</li>
+                        <li>Click "Choose Image" → "Use custom" → select DietPi .img file</li>
+                        <li>Select your SD card as destination</li>
+                        <li>Click gear icon for advanced options</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Configure advanced options
+                    <ul class="substep-list">
+                        <li><strong>Enable SSH:</strong> Check this box</li>
+                        <li><strong>Set username/password:</strong> dietpi/yourpassword</li>
+                        <li><strong>Configure WiFi:</strong> Only if you won't use ethernet</li>
+                        <li><strong>Set locale:</strong> Your timezone and keyboard layout</li>
+                        <li>Click "Save" then "Write"</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Wait for flashing to complete
+                    <ul class="substep-list">
+                        <li>Process takes 5-10 minutes</li>
+                        <li>Imager will verify the write automatically</li>
+                        <li>Safely eject SD card when complete</li>
+                        <li>Insert SD card into your Pi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Alternative OS Options:</strong>
+                <ul class="substep-list">
+                    <li><strong>Raspberry Pi OS:</strong> Official OS, good for learning Linux</li>
+                    <li><strong>Ubuntu Server:</strong> More mainstream, extensive documentation</li>
+                    <li><strong>OpenMediaVault:</strong> Specialized for NAS functionality</li>
+                    <li><strong>CasaOS:</strong> Can be installed on any of the above</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="initial">
+            <h2>🚀 Initial Setup <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <div class="step-list">
+                <div class="step">
+                    First boot
+                    <ul class="substep-list">
+                        <li>Connect ethernet cable to Pi and router</li>
+                        <li>Connect power supply (Pi will boot automatically)</li>
+                        <li>Wait 2-3 minutes for initial boot</li>
+                        <li>LEDs should show activity (red power, green activity)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Find your Pi's IP address
+                    <ul class="substep-list">
+                        <li><strong>Method 1:</strong> Check your router's admin page (usually 192.168.1.1)</li>
+                        <li><strong>Method 2:</strong> Use network scanner like <a href="https://www.advanced-ip-scanner.com/" target="_blank" class="link">Advanced IP Scanner</a></li>
+                        <li><strong>Method 3:</strong> Use command: <code>nmap -sn 192.168.1.0/24</code></li>
+                        <li>Look for device named "DietPi" or "raspberrypi"</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Connect via SSH
+                    <ul class="substep-list">
+                        <li><strong>Windows:</strong> Use built-in SSH or <a href="https://www.putty.org/" target="_blank" class="link">PuTTY</a></li>
+                        <li><strong>Mac/Linux:</strong> Use terminal</li>
+                        <li>Command: <code>ssh dietpi@192.168.1.XXX</code> (replace with your IP)</li>
+                        <li>Default password: dietpi</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Complete DietPi first-run setup
+                    <ul class="substep-list">
+                        <li>DietPi will run automatic setup on first login</li>
+                        <li>Change default passwords when prompted</li>
+                        <li>Select your locale and timezone</li>
+                        <li>Choose serial console options (usually defaults are fine)</li>
+                        <li>Wait for system updates to complete</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="troubleshooting">
+                <h4>🔧 Can't Connect?</h4>
+                <ul class="substep-list">
+                    <li><strong>No IP address:</strong> Check ethernet cable and router connection</li>
+                    <li><strong>SSH refused:</strong> Wait longer, Pi might still be booting</li>
+                    <li><strong>Wrong password:</strong> Try default dietpi/dietpi</li>
+                    <li><strong>Network issues:</strong> Try connecting monitor and keyboard directly</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Initial Setup Complete!</strong> You now have a running Linux server on your network.
+            </div>
+        </div>
+
+        <div class="section" id="dietpi">
+            <h2>⚙️ Configure DietPi <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Understanding DietPi Software Tool</h3>
+            <p>DietPi's main feature is its software installation tool that can install and configure popular applications with zero manual setup.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Launch DietPi-Software
+                    <div class="command-block">
+                        <code class="comment"># Main DietPi configuration tool</code>
+                        <code>dietpi-software</code>
+                    </div>
+                    <p>This opens a menu-driven interface for software installation.</p>
+                </div>
+
+                <div class="step">
+                    Configure basic settings
+                    <ul class="substep-list">
+                        <li>Select "DietPi-Config" from main menu</li>
+                        <li><strong>Network Options:</strong> Set static IP if desired</li>
+                        <li><strong>Security Options:</strong> Change SSH port (optional)</li>
+                        <li><strong>Performance Options:</strong> Enable all CPU cores</li>
+                        <li><strong>Advanced Options:</strong> Enable I2C if you plan hardware additions</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Optimize system performance
+                    <ul class="substep-list">
+                        <li>Go to "DietPi-Config" → "Performance Options"</li>
+                        <li>Set CPU governor to "performance" for consistent speed</li>
+                        <li>Increase GPU memory split to 128MB (helps with media)</li>
+                        <li>Enable all CPU cores</li>
+                        <li>Set swappiness to 10 (reduces SD card wear)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Setup external storage (if using USB drive)
+                    <ul class="substep-list">
+                        <li>Connect your USB drive</li>
+                        <li>Go to "DietPi-Drive_Manager"</li>
+                        <li>Select your USB drive</li>
+                        <li>Format as ext4 (recommended for Linux)</li>
+                        <li>Set as user data directory</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Storage Strategy:</strong>
+                <ul class="substep-list">
+                    <li><strong>SD Card:</strong> OS and small configs only</li>
+                    <li><strong>USB Drive:</strong> All user data, databases, media</li>
+                    <li><strong>Why:</strong> SD cards wear out with heavy writes, USB drives are more durable</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="services">
+            <h2>📦 Install Services <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Essential Services Installation</h3>
+            <p>We'll install core services that replace major cloud platforms. Each service is installed with one click in DietPi.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Install Nextcloud (Google Drive replacement)
+                    <ul class="substep-list">
+                        <li>In dietpi-software, go to "Browse Software"</li>
+                        <li>Category: "Cloud & Backup" → "Nextcloud"</li>
+                        <li>Select it (space bar) and install</li>
+                        <li>DietPi handles database setup, web server, PHP, etc.</li>
+                        <li>Access at: http://your-pi-ip/nextcloud</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Vaultwarden (Password Manager)
+                    <ul class="substep-list">
+                        <li>Category: "Social & Search" → "Vaultwarden"</li>
+                        <li>Lightweight Bitwarden server</li>
+                        <li>Stores all passwords encrypted</li>
+                        <li>Works with Bitwarden mobile/desktop apps</li>
+                        <li>Access at: http://your-pi-ip:8080</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Pi-hole (Network Ad Blocker)
+                    <ul class="substep-list">
+                        <li>Category: "DNS Servers" → "Pi-hole"</li>
+                        <li>Blocks ads for your entire network</li>
+                        <li>Speeds up browsing and saves bandwidth</li>
+                        <li>Provides network analytics</li>
+                        <li>Access at: http://your-pi-ip/admin</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Jellyfin (Media Server)
+                    <ul class="substep-list">
+                        <li>Category: "Media Systems" → "Jellyfin"</li>
+                        <li>Your personal Netflix</li>
+                        <li>Streams movies, TV shows, music</li>
+                        <li>Works on all devices (phones, TVs, browsers)</li>
+                        <li>Access at: http://your-pi-ip:8096</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Optional but Recommended Services</h3>
+            <div class="step-list">
+                <div class="step">
+                    Install PhotoPrism (Photo Management)
+                    <ul class="substep-list">
+                        <li>AI-powered photo organization</li>
+                        <li>Face recognition and auto-tagging</li>
+                        <li>Replaces Google Photos</li>
+                        <li><strong>Note:</strong> Resource intensive, consider Pi 4 8GB only</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Home Assistant (Smart Home)
+                    <ul class="substep-list">
+                        <li>Central hub for smart home devices</li>
+                        <li>Works with hundreds of brands</li>
+                        <li>Local control (no cloud dependency)</li>
+                        <li>Automation and scheduling</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Resource Management:</strong> Don't install everything at once! Start with 2-3 services, monitor performance, then add more. Pi 4 8GB can handle 5-8 services comfortably.
+            </div>
+
+            <div class="success-box">
+                <strong>✅ Services Installed!</strong> You now have multiple cloud services running on your own hardware.
+            </div>
+        </div>
+
+        <div class="section" id="network">
+            <h2>🌐 Network Configuration <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Setting Up Remote Access</h3>
+            <p>Configure your network so you can access your services from anywhere, securely.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Set static IP address
+                    <ul class="substep-list">
+                        <li>In dietpi-config → "Network Options: Adapters"</li>
+                        <li>Select "Ethernet" → "Change to static"</li>
+                        <li>Set IP (e.g., 192.168.1.100)</li>
+                        <li>Set gateway to your router IP</li>
+                        <li>DNS servers: 1.1.1.1, 8.8.8.8</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Configure router port forwarding
+                    <ul class="substep-list">
+                        <li>Access your router admin panel (usually 192.168.1.1)</li>
+                        <li>Find "Port Forwarding" or "Virtual Servers"</li>
+                        <li><strong>HTTP:</strong> External 80 → Internal 192.168.1.100:80</li>
+                        <li><strong>HTTPS:</strong> External 443 → Internal 192.168.1.100:443</li>
+                        <li><strong>SSH:</strong> External 2222 → Internal 192.168.1.100:22</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Setup dynamic DNS (DDNS)
+                    <ul class="substep-list">
+                        <li>Your home IP changes periodically</li>
+                        <li>Use <a href="https://www.duckdns.org/" target="_blank" class="link">DuckDNS</a> for free subdomain</li>
+                        <li>Install DuckDNS from DietPi software</li>
+                        <li>Configure your subdomain (e.g., myhouse.duckdns.org)</li>
+                        <li>Automatic IP update every 5 minutes</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install reverse proxy (advanced)
+                    <ul class="substep-list">
+                        <li>Install "Nginx" from DietPi software</li>
+                        <li>Configure subdomains for each service</li>
+                        <li>nextcloud.yourdomain.com → Nextcloud</li>
+                        <li>vault.yourdomain.com → Vaultwarden</li>
+                        <li>Enables SSL certificates for each service</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Security Warning:</strong> Port forwarding exposes your Pi to the internet. Ensure you complete the security section before enabling external access!
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Alternative: VPN Access</strong><br>
+                Instead of port forwarding, consider setting up WireGuard VPN:
+                <ul class="substep-list">
+                    <li>Install WireGuard from DietPi software</li>
+                    <li>Access your services through VPN tunnel</li>
+                    <li>More secure than exposing services directly</li>
+                    <li>One port forward (51820) for all services</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="security">
+            <h2>🔒 Security Hardening <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <div class="warning-box">
+                <strong>⚠️ Critical Security Steps:</strong> Your Pi is now accessible from the internet. These steps are mandatory, not optional!
+            </div>
+
+            <div class="step-list">
+                <div class="step">
+                    Update system and enable automatic security updates
+                    <div class="command-block">
+                        <code class="comment"># Update everything</code>
+                        <code>apt update && apt upgrade -y</code>
+                        <code class="comment"># Enable automatic security updates</code>
+                        <code>apt install unattended-upgrades -y</code>
+                        <code>dpkg-reconfigure unattended-upgrades</code>
+                        <code class="comment"># Select "Yes" when prompted</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Configure firewall (UFW)
+                    <div class="command-block">
+                        <code class="comment"># Install and configure firewall</code>
+                        <code>ufw default deny incoming</code>
+                        <code>ufw default allow outgoing</code>
+                        <code class="comment"># Allow essential services</code>
+                        <code>ufw allow 22/tcp</code>
+                        <code>ufw allow 80/tcp</code>
+                        <code>ufw allow 443/tcp</code>
+                        <code class="comment"># Enable firewall</code>
+                        <code>ufw enable</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Install and configure Fail2Ban
+                    <div class="command-block">
+                        <code class="comment"># Install fail2ban</code>
+                        <code>apt install fail2ban -y</code>
+                        <code class="comment"># Create custom configuration</code>
+                        <code>nano /etc/fail2ban/jail.local</code>
+                    </div>
+                    <p>Add this configuration:</p>
+                    <div class="command-block">
+                        <code>[DEFAULT]</code>
+                        <code>bantime = 3600</code>
+                        <code>findtime = 600</code>
+                        <code>maxretry = 3</code>
+                        <code></code>
+                        <code>[sshd]</code>
+                        <code>enabled = true</code>
+                        <code>port = 22</code>
+                        <code>filter = sshd</code>
+                        <code>logpath = /var/log/auth.log</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Setup SSH key authentication (highly recommended)
+                    <ul class="substep-list">
+                        <li>Generate SSH key pair on your computer</li>
+                        <li>Windows: <code>ssh-keygen -t ed25519</code></li>
+                        <li>Copy public key to Pi: <code>ssh-copy-id dietpi@your-pi-ip</code></li>
+                        <li>Test key authentication works</li>
+                        <li>Disable password authentication in SSH config</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Change default SSH port
+                    <div class="command-block">
+                        <code class="comment"># Edit SSH configuration</code>
+                        <code>nano /etc/ssh/sshd_config</code>
+                        <code class="comment"># Change Port 22 to Port 2222</code>
+                        <code class="comment"># Restart SSH service</code>
+                        <code>systemctl restart ssh</code>
+                        <code class="comment"># Update firewall</code>
+                        <code>ufw allow 2222/tcp</code>
+                        <code>ufw delete allow 22/tcp</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Setup SSL certificates with Let's Encrypt
+                    <div class="command-block">
+                        <code class="comment"># Install certbot</code>
+                        <code>apt install certbot python3-certbot-nginx -y</code>
+                        <code class="comment"># Get certificate (replace with your domain)</code>
+                        <code>certbot --nginx -d yourdomain.duckdns.org</code>
+                        <code class="comment"># Setup automatic renewal</code>
+                        <code>crontab -e</code>
+                        <code class="comment"># Add line: 0 12 * * * /usr/bin/certbot renew --quiet</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>🛡️ Additional Security Measures:</strong>
+                <ul class="substep-list">
+                    <li>Setup intrusion detection with AIDE</li>
+                    <li>Configure log monitoring with logwatch</li>
+                    <li>Install ClamAV antivirus</li>
+                    <li>Setup VPN-only access to services</li>
+                    <li>Regular security audits with tools like nmap</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="backup">
+            <h2>💾 Backup Strategy <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <h3>Multi-Layer Backup Approach</h3>
+            <p>Protect your data with multiple backup layers. Remember: RAID is not backup, it's availability.</p>
+
+            <div class="step-list">
+                <div class="step">
+                    Setup SD card imaging
+                    <ul class="substep-list">
+                        <li>Create full SD card image monthly</li>
+                        <li>Use Win32DiskImager or dd command</li>
+                        <li>Store images on separate device</li>
+                        <li>Test restore process periodically</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Configure automated file backups
+                    <div class="command-block">
+                        <code class="comment"># Install backup tools</code>
+                        <code>apt install rsync rclone -y</code>
+                        <code class="comment"># Setup daily backup script</code>
+                        <code>nano /usr/local/bin/backup.sh</code>
+                    </div>
+                    <p>Create backup script:</p>
+                    <div class="command-block">
+                        <code>#!/bin/bash</code>
+                        <code class="comment"># Backup important directories</code>
+                        <code>rsync -av /mnt/dietpi_userdata/ /backup/daily/</code>
+                        <code>rsync -av /etc/ /backup/config/</code>
+                        <code class="comment"># Upload to cloud storage</code>
+                        <code>rclone sync /backup/ remote:pi-backup/</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Setup cloud backup destination
+                    <ul class="substep-list">
+                        <li>Configure rclone with cloud provider</li>
+                        <li>Options: Google Drive, Dropbox, OneDrive, B2</li>
+                        <li>Encrypt backups before upload</li>
+                        <li>Test restore from cloud regularly</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Install Duplicati for advanced backups
+                    <ul class="substep-list">
+                        <li>Install from DietPi software catalog</li>
+                        <li>Web-based backup configuration</li>
+                        <li>Incremental backups save space</li>
+                        <li>Built-in encryption and compression</li>
+                        <li>Access at: http://your-pi-ip:8200</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Create recovery documentation
+                    <ul class="substep-list">
+                        <li>Document your configuration settings</li>
+                        <li>List all installed services and their configs</li>
+                        <li>Create step-by-step recovery procedures</li>
+                        <li>Store documentation offline (printed copy)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>📋 Backup Checklist (3-2-1 Rule):</strong>
+                <ul class="substep-list">
+                    <li><strong>3 copies:</strong> Original + 2 backups</li>
+                    <li><strong>2 different media:</strong> SD card + USB drive + cloud</li>
+                    <li><strong>1 offsite:</strong> Cloud storage or physical location</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="monitoring">
+            <h2>📊 Monitoring & Maintenance <span class="essential-badge">ESSENTIAL</span></h2>
+
+            <div class="step-list">
+                <div class="step">
+                    Install system monitoring
+                    <ul class="substep-list">
+                        <li>Install "Netdata" from DietPi software</li>
+                        <li>Real-time system monitoring</li>
+                        <li>CPU, RAM, disk, network graphs</li>
+                        <li>Access at: http://your-pi-ip:19999</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Setup uptime monitoring
+                    <ul class="substep-list">
+                        <li>Install "Uptime Kuma" from DietPi software</li>
+                        <li>Monitor all your services</li>
+                        <li>Email/SMS alerts when services go down</li>
+                        <li>Public status page for family/friends</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Configure log monitoring
+                    <div class="command-block">
+                        <code class="comment"># Install log monitoring</code>
+                        <code>apt install logwatch -y</code>
+                        <code class="comment"># Configure daily email reports</code>
+                        <code>nano /etc/logwatch/conf/logwatch.conf</code>
+                        <code class="comment"># Set your email address</code>
+                        <code>MailTo = your@email.com</code>
+                    </div>
+                </div>
+
+                <div class="step">
+                    Create maintenance schedule
+                    <ul class="substep-list">
+                        <li><strong>Daily:</strong> Check service status (automated)</li>
+                        <li><strong>Weekly:</strong> Review logs, update packages</li>
+                        <li><strong>Monthly:</strong> Full system backup, security audit</li>
+                        <li><strong>Quarterly:</strong> Hardware check, replace SD card if needed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Weekly Maintenance Routine (10 minutes)</h3>
+            <div class="command-block">
+                <code class="comment"># Weekly maintenance script</code>
+                <code>#!/bin/bash</code>
+                <code class="comment"># Update system</code>
+                <code>apt update && apt upgrade -y</code>
+                <code class="comment"># Clean up</code>
+                <code>apt autoremove -y && apt autoclean</code>
+                <code class="comment"># Check disk space</code>
+                <code>df -h</code>
+                <code class="comment"># Check system load</code>
+                <code>uptime</code>
+                <code class="comment"># Check failed services</code>
+                <code>systemctl --failed</code>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ SD Card Lifespan:</strong> SD cards wear out with heavy use. Monitor write cycles and replace annually for critical systems. Consider moving to USB SSD for better reliability.
+            </div>
+        </div>
+
+        <div class="section" id="expand">
+            <h2>🚀 Expanding Your Setup <span class="optional-badge">ADVANCED</span></h2>
+
+            <h3>Hardware Upgrades</h3>
+            <div class="step-list">
+                <div class="step">
+                    Add more storage
+                    <ul class="substep-list">
+                        <li>USB 3.0 SSD for better performance</li>
+                        <li>Multiple USB drives for RAID setup</li>
+                        <li>Network Attached Storage (NAS) integration</li>
+                        <li>Consider upgrading to Pi 5 when available</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Cluster setup (multiple Pis)
+                    <ul class="substep-list">
+                        <li>Kubernetes cluster for learning</li>
+                        <li>Load balancing across multiple Pis</li>
+                        <li>High availability service setup</li>
+                        <li>Distributed storage with GlusterFS</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Advanced Services</h3>
+            <div class="step-list">
+                <div class="step">
+                    Communication platforms
+                    <ul class="substep-list">
+                        <li>Matrix server for secure messaging</li>
+                        <li>Jitsi Meet for video conferencing</li>
+                        <li>Mastodon for social media</li>
+                        <li>Email server (advanced users only)</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    Development tools
+                    <ul class="substep-list">
+                        <li>GitLab for code hosting</li>
+                        <li>Jenkins for CI/CD</li>
+                        <li>Docker registry for containers</li>
+                        <li>Wiki.js for documentation</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    IoT and automation
+                    <ul class="substep-list">
+                        <li>MQTT broker for IoT devices</li>
+                        <li>Node-RED for automation flows</li>
+                        <li>InfluxDB + Grafana for time series data</li>
+                        <li>Security camera system with MotionEye</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Learning Opportunities</h3>
+            <ul class="substep-list">
+                <li><strong>Linux Administration:</strong> Deep dive into system management</li>
+                <li><strong>Networking:</strong> VLANs, routing, network security</li>
+                <li><strong>Containerization:</strong> Docker and Kubernetes</li>
+                <li><strong>Database Management:</strong> MySQL, PostgreSQL, MongoDB</li>
+                <li><strong>Web Development:</strong> Host your own websites and applications</li>
+                <li><strong>Security:</strong> Penetration testing, hardening, monitoring</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <h3>🎉 Congratulations!</h3>
+            <p>You've built a complete home server that:</p>
+            <ul class="substep-list">
+                <li>✅ Runs multiple cloud services on your own hardware</li>
+                <li>✅ Provides secure remote access to your data</li>
+                <li>✅ Saves money compared to cloud subscriptions</li>
+                <li>✅ Teaches valuable Linux and networking skills</li>
+                <li>✅ Gives you complete control over your digital life</li>
+            </ul>
+            <p><strong>You're now part of the self-hosting community! Share your knowledge and help others achieve digital independence.</strong></p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-button secondary">← Back to Home</a>
+            <a href="#expand" class="nav-button">Explore Advanced Features →</a>
+        </div>
+    </div>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update progress tracker
+            document.querySelectorAll('.progress-list li').forEach(li => {
+                li.classList.remove('current');
+            });
+            event.target.classList.add('current');
+        }
+
+        // Auto-update progress as user scrolls
+        window.addEventListener('scroll', () => {
+            const sections = ['overview', 'assembly', 'os', 'initial', 'dietpi', 'services', 'network', 'security', 'backup', 'monitoring', 'expand'];
+            const progressItems = document.querySelectorAll('.progress-list li');
+            
+            sections.forEach((sectionId, index) => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 200 && rect.bottom >= 200) {
+                        progressItems.forEach(item => item.classList.remove('current'));
+                        if (progressItems[index]) {
+                            progressItems[index].classList.add('current');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
