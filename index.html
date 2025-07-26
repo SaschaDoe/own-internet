@@ -390,6 +390,31 @@
             text-decoration: line-through;
         }
 
+        .alternatives {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .alt-link {
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            text-decoration: none;
+            border: 1px solid var(--primary-color);
+            font-size: 0.9em;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .alt-link:hover {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5em; }
@@ -697,55 +722,171 @@
         </div>
     </section>
 
-    <!-- Services Preview -->
+    <!-- Services Directory -->
     <section id="services" class="section">
-        <h2>What You Can Replace</h2>
+        <h2>Self-Hosted Alternatives Directory</h2>
+        <p style="text-align: center; font-size: 1.2em; margin-bottom: 40px; color: var(--dim-color);">
+            Click any service to visit their website and learn more
+        </p>
+        
         <div class="services-preview">
             <div class="service-preview">
                 <div class="service-icon">📁</div>
-                <div class="service-title">Your Files</div>
-                <div class="vs-text">Replace <span class="corporate-name">Google Drive, Dropbox</span></div>
-                <p>Unlimited storage, no monthly fees, automatic sync across all devices</p>
+                <div class="service-title">File Storage & Sync</div>
+                <div class="vs-text">Replace <span class="corporate-name">Google Drive, Dropbox, iCloud</span></div>
+                <div class="alternatives">
+                    <a href="https://nextcloud.com/" target="_blank" class="alt-link">Nextcloud</a>
+                    <a href="https://owncloud.com/" target="_blank" class="alt-link">ownCloud</a>
+                    <a href="https://www.seafile.com/" target="_blank" class="alt-link">Seafile</a>
+                    <a href="https://syncthing.net/" target="_blank" class="alt-link">Syncthing</a>
+                </div>
             </div>
 
             <div class="service-preview">
                 <div class="service-icon">💬</div>
-                <div class="service-title">Private Chat</div>
-                <div class="vs-text">Replace <span class="corporate-name">WhatsApp, Discord</span></div>
-                <p>End-to-end encryption, video calls, file sharing - all under your control</p>
+                <div class="service-title">Messaging & Chat</div>
+                <div class="vs-text">Replace <span class="corporate-name">WhatsApp, Telegram, Discord</span></div>
+                <div class="alternatives">
+                    <a href="https://matrix.org/" target="_blank" class="alt-link">Matrix/Element</a>
+                    <a href="https://signal.org/download/" target="_blank" class="alt-link">Signal</a>
+                    <a href="https://rocket.chat/" target="_blank" class="alt-link">Rocket.Chat</a>
+                    <a href="https://mattermost.com/" target="_blank" class="alt-link">Mattermost</a>
+                </div>
             </div>
 
             <div class="service-preview">
                 <div class="service-icon">🎬</div>
-                <div class="service-title">Personal Netflix</div>
-                <div class="vs-text">Replace <span class="corporate-name">Netflix, YouTube Premium</span></div>
-                <p>Stream your movie collection anywhere, no ads, no restrictions</p>
+                <div class="service-title">Media Streaming</div>
+                <div class="vs-text">Replace <span class="corporate-name">Netflix, Plex, YouTube Premium</span></div>
+                <div class="alternatives">
+                    <a href="https://jellyfin.org/" target="_blank" class="alt-link">Jellyfin</a>
+                    <a href="https://emby.media/" target="_blank" class="alt-link">Emby</a>
+                    <a href="https://kodi.tv/" target="_blank" class="alt-link">Kodi</a>
+                    <a href="https://www.navidrome.org/" target="_blank" class="alt-link">Navidrome</a>
+                </div>
             </div>
 
             <div class="service-preview">
                 <div class="service-icon">📱</div>
-                <div class="service-title">Social Network</div>
-                <div class="vs-text">Replace <span class="corporate-name">Twitter, Facebook</span></div>
-                <p>Connect with friends without algorithms, ads, or data mining</p>
+                <div class="service-title">Social Media</div>
+                <div class="vs-text">Replace <span class="corporate-name">Twitter, Facebook, Instagram</span></div>
+                <div class="alternatives">
+                    <a href="https://joinmastodon.org/" target="_blank" class="alt-link">Mastodon</a>
+                    <a href="https://join-lemmy.org/" target="_blank" class="alt-link">Lemmy</a>
+                    <a href="https://pixelfed.org/" target="_blank" class="alt-link">Pixelfed</a>
+                    <a href="https://diasporafoundation.org/" target="_blank" class="alt-link">Diaspora</a>
+                </div>
             </div>
 
             <div class="service-preview">
                 <div class="service-icon">🔐</div>
-                <div class="service-title">Password Manager</div>
-                <div class="vs-text">Replace <span class="corporate-name">LastPass, 1Password</span></div>
-                <p>Military-grade security for all your passwords and sensitive data</p>
+                <div class="service-title">Password Managers</div>
+                <div class="vs-text">Replace <span class="corporate-name">LastPass, 1Password, Dashlane</span></div>
+                <div class="alternatives">
+                    <a href="https://github.com/dani-garcia/vaultwarden" target="_blank" class="alt-link">Vaultwarden</a>
+                    <a href="https://bitwarden.com/" target="_blank" class="alt-link">Bitwarden</a>
+                    <a href="https://www.passbolt.com/" target="_blank" class="alt-link">Passbolt</a>
+                    <a href="https://keepass.info/" target="_blank" class="alt-link">KeePass</a>
+                </div>
             </div>
 
             <div class="service-preview">
                 <div class="service-icon">📧</div>
-                <div class="service-title">Email Server</div>
-                <div class="vs-text">Replace <span class="corporate-name">Gmail, Outlook</span></div>
-                <p>Your own email domain, no scanning, no ads, complete privacy</p>
+                <div class="service-title">Email Servers</div>
+                <div class="vs-text">Replace <span class="corporate-name">Gmail, Outlook, Yahoo Mail</span></div>
+                <div class="alternatives">
+                    <a href="https://mailcow.email/" target="_blank" class="alt-link">Mailcow</a>
+                    <a href="https://mailu.io/" target="_blank" class="alt-link">Mailu</a>
+                    <a href="https://www.iredmail.org/" target="_blank" class="alt-link">iRedMail</a>
+                    <a href="https://www.hmailserver.com/" target="_blank" class="alt-link">hMailServer</a>
+                </div>
+            </div>
+
+            <div class="service-preview">
+                <div class="service-icon">📸</div>
+                <div class="service-title">Photo Management</div>
+                <div class="vs-text">Replace <span class="corporate-name">Google Photos, iCloud Photos</span></div>
+                <div class="alternatives">
+                    <a href="https://photoprism.app/" target="_blank" class="alt-link">PhotoPrism</a>
+                    <a href="https://www.piwigo.org/" target="_blank" class="alt-link">Piwigo</a>
+                    <a href="https://immich.app/" target="_blank" class="alt-link">Immich</a>
+                    <a href="https://lycheeorg.github.io/" target="_blank" class="alt-link">Lychee</a>
+                </div>
+            </div>
+
+            <div class="service-preview">
+                <div class="service-icon">📝</div>
+                <div class="service-title">Note Taking & Docs</div>
+                <div class="vs-text">Replace <span class="corporate-name">Notion, Evernote, Google Docs</span></div>
+                <div class="alternatives">
+                    <a href="https://joplinapp.org/" target="_blank" class="alt-link">Joplin</a>
+                    <a href="https://standardnotes.com/" target="_blank" class="alt-link">Standard Notes</a>
+                    <a href="https://js.wiki/" target="_blank" class="alt-link">Wiki.js</a>
+                    <a href="https://www.onlyoffice.com/" target="_blank" class="alt-link">OnlyOffice</a>
+                </div>
+            </div>
+
+            <div class="service-preview">
+                <div class="service-icon">📺</div>
+                <div class="service-title">Video Conferencing</div>
+                <div class="vs-text">Replace <span class="corporate-name">Zoom, Google Meet, Teams</span></div>
+                <div class="alternatives">
+                    <a href="https://jitsi.org/" target="_blank" class="alt-link">Jitsi Meet</a>
+                    <a href="https://bigbluebutton.org/" target="_blank" class="alt-link">BigBlueButton</a>
+                    <a href="https://nextcloud.com/talk/" target="_blank" class="alt-link">Nextcloud Talk</a>
+                    <a href="https://element.io/" target="_blank" class="alt-link">Element Calls</a>
+                </div>
+            </div>
+
+            <div class="service-preview">
+                <div class="service-icon">🌐</div>
+                <div class="service-title">Web Analytics</div>
+                <div class="vs-text">Replace <span class="corporate-name">Google Analytics</span></div>
+                <div class="alternatives">
+                    <a href="https://plausible.io/" target="_blank" class="alt-link">Plausible</a>
+                    <a href="https://matomo.org/" target="_blank" class="alt-link">Matomo</a>
+                    <a href="https://umami.is/" target="_blank" class="alt-link">Umami</a>
+                    <a href="https://www.goatcounter.com/" target="_blank" class="alt-link">GoatCounter</a>
+                </div>
+            </div>
+
+            <div class="service-preview">
+                <div class="service-icon">🎵</div>
+                <div class="service-title">Music Streaming</div>
+                <div class="vs-text">Replace <span class="corporate-name">Spotify, Apple Music</span></div>
+                <div class="alternatives">
+                    <a href="https://www.navidrome.org/" target="_blank" class="alt-link">Navidrome</a>
+                    <a href="https://www.airsonic.org/" target="_blank" class="alt-link">Airsonic</a>
+                    <a href="https://funkwhale.audio/" target="_blank" class="alt-link">Funkwhale</a>
+                    <a href="https://www.ampache.org/" target="_blank" class="alt-link">Ampache</a>
+                </div>
+            </div>
+
+            <div class="service-preview">
+                <div class="service-icon">🛡️</div>
+                <div class="service-title">Ad Blocking & DNS</div>
+                <div class="vs-text">Replace <span class="corporate-name">Network ads, tracking</span></div>
+                <div class="alternatives">
+                    <a href="https://pi-hole.net/" target="_blank" class="alt-link">Pi-hole</a>
+                    <a href="https://adguard.com/en/adguard-home/overview.html" target="_blank" class="alt-link">AdGuard Home</a>
+                    <a href="https://github.com/nextdns/nextdns" target="_blank" class="alt-link">NextDNS</a>
+                    <a href="https://www.technitium.com/dns/" target="_blank" class="alt-link">Technitium</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 255, 0, 0.05); border: 2px solid var(--primary-color); padding: 30px; margin: 40px 0; text-align: center;">
+            <h3 style="color: var(--primary-color); margin-bottom: 15px;">🔍 Want More Alternatives?</h3>
+            <p>Explore these comprehensive directories:</p>
+            <div style="margin-top: 20px;">
+                <a href="https://github.com/awesome-selfhosted/awesome-selfhosted" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">Awesome Self-Hosted</a>
+                <a href="https://alternativeto.net/" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">AlternativeTo</a>
+                <a href="https://www.privacytools.io/" target="_blank" style="color: var(--primary-color); margin: 0 15px; text-decoration: underline;">Privacy Tools</a>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 50px;">
-            <a href="#guide" class="cta-button">Get Your Personalized Plan</a>
+            <a href="#guide" class="cta-button">Get Your Personalized Setup Guide</a>
         </div>
     </section>
 
